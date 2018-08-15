@@ -1,0 +1,26 @@
+MacOS [
+	Version: v0.0.1,
+	Expected Release Date: 11/15/18, --Subject to change
+	Planned Fixes: (
+		Finish adding MacOS memory & CPU handling,
+		Start adding more program error handling for MacOS
+	) -- may have more to add later
+]
+
+Linux [
+	Version: v0.0.1,
+	Expected Release date: 10/2/18, --Subject to change
+	Planned Fixes: (
+		Finish adding Linux memory & CPU handling,
+		Start adding more program error handling for Linux
+	) -- may have more to add later
+]
+
+Windows [
+	Version: v0.5.1,
+	Expected release date: 8/26/18, --Subject to change
+	Planned Fixes: (
+		Finish stabilizing memory handling,
+		Start adding more program error handling for Windows
+	) -- may have more to add later
+]
