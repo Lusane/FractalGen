@@ -1,7 +1,7 @@
 # FractalGen
 # The program I used to teach Myself C++
 
-# Current Program Version: v0.5_beta
+# Current Program Version: v0.5.0_beta_r53
 # Current Fractal System Version: v0.8a
 
 # I don't plan on making any money with this program.
