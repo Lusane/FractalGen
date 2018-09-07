@@ -55,8 +55,16 @@ typedef struct {
 	bool useSetDeaults;
 	bool randomColorValues;
 	bool Inverted;
-	float Intensity;
 	bool Intensify;
+	float Intensity;
+
+	//For RCC Section
+	int rMltLimit;
+	int rDivLimit;
+	int gMltLimit;
+	int gDivLimit;
+	int bMltLimit;
+	int bDivLimit;
 
 	//For Sets Section
 	int set1;
@@ -74,6 +82,7 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	fractalConfiguration* fconfig = (fractalConfiguration*)user;
 
 	#define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
+	//Main
 	if (MATCH("Main", "SetCount")) {
 		fconfig->setCount = atoi(value);
 	}
@@ -89,11 +98,30 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	else if (MATCH("Main", "Inverted")) {
 		fconfig->Inverted = atoi(value);
 	}
+	else if (MATCH("Main", "Intensify")) {
+		fconfig->Intensify = atoi(value);
+	}
 	else if (MATCH("Main", "Intensity")) {
 		fconfig->Intensity = (float)atof(value);
 	}
-	else if (MATCH("Main", "Intensify")) {
-		fconfig->Intensify = atoi(value);
+	//RCC
+	else if (MATCH("RCC", "rMltLimit")) {
+		fconfig->rMltLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "rDivLimit")) {
+		fconfig->rDivLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "gMltLimit")) {
+		fconfig->gMltLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "gDivLimit")) {
+		fconfig->gDivLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "bMltLimit")) {
+		fconfig->bMltLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "bDivLimit")) {
+		fconfig->bDivLimit = atoi(value);
 	}
 	//Sets
 	else if (MATCH("Sets", "set1")) {

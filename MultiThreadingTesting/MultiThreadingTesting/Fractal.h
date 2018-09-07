@@ -71,15 +71,15 @@ typedef struct {
 		return color;
 	}
 
-	int addFractalSets(float v, float d) {
+	int addFractalSets(double v, double d) {
 		return SaftyNet((int)(v + d));
 	}
 
-	int subFractalSets(float v, float d) {
+	int subFractalSets(double v, double d) {
 		return SaftyNet((int)(v - d));
 	}
 
-	std::string getRGB(float *fRed, float *fGreen, float *fBlue, std::string id) {
+	std::string getRGB(double *dRed, double *dGreen, double *dBlue, std::string id) {
 		int red = 1;
 		int green = 1;
 		int blue = 1;
@@ -87,17 +87,17 @@ typedef struct {
 		if (fConfig.Inverted) {
 
 			for (int rn = 0; rn < fConfig.setCount; rn++) {
-				red = SaftyNet((int)(subFractalSets((((float)addFractalSets((float)red, fRed[rn]) / fConfig.setCount) + (int)PI), fRed[fConfig.setCount-rn])));
-				green = SaftyNet((int)(subFractalSets((((float)addFractalSets((float)green, fGreen[rn]) / fConfig.setCount) + (int)PI), fGreen[fConfig.setCount-rn])));
-				blue = SaftyNet((int)(subFractalSets((((float)addFractalSets((float)blue, fBlue[rn]) / fConfig.setCount) + (int)PI), fBlue[fConfig.setCount-rn])));
+				red = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				green = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				blue = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
 			}
 		}
 		else if(!fConfig.Inverted) {
 
 			for (int rn = 0; rn < fConfig.setCount; rn++) {
-				red = SaftyNet((int)(addFractalSets((((float)subFractalSets((float)red, fRed[rn]) / fConfig.setCount) + (int)PI), fRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				green = SaftyNet((int)(addFractalSets((((float)subFractalSets((float)green, fGreen[rn]) / fConfig.setCount) + (int)PI), fGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				blue = SaftyNet((int)(addFractalSets((((float)subFractalSets((float)blue, fBlue[rn]) / fConfig.setCount) + (int)PI), fBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				red = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				green = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				blue = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
 			}
 		}
 		

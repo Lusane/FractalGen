@@ -1,18 +1,18 @@
 # FractalGen
 # The program I used to teach Myself C++
 
-# Current Program Version: v0.5.0_beta_r53
+# Current Program Version: v0.5.1_beta
 # Current Fractal System Version: v0.8a
 
 # I don't plan on making any money with this program.
 
-# [x32 NOTICE]
-## I have the x32 version of the program large address aware, but even then it is limited to 4GB of ram.
+# [x86 NOTICE]
+## I have the x86 version of the program large address aware, but even then it is limited to 4GB of ram.
 ## If you want to generate images larger then 4GB you have to use the x64 version
 ## p.s Don't worry about going to large and breaking the program. I have limited it to a 4GB image.(12288x12288)
 
-## This program outputs the fractal images in *.ppm format.(More formats coming soon)
-## To veiw *.ppm's download gimp Here https://www.gimp.org/downloads/ or another image editing/veiwing program capable of loading *.ppm's.
+## This program outputs the fractal images in (*.ppm, *.pbm, *.pgm, *.pnm(All these Extentions are the same format)) format.(More formats coming soon)
+## To veiw (*.ppm, *.pbm, *.pgm, *.pnm)'s download gimp Here https://www.gimp.org/downloads/ or another image editing/veiwing program capable of loading (*.ppm, *.pbm, *.pgm, *.pnm)'s.
 
 ## Program.ini Explained
 ### [Protocol]
@@ -23,7 +23,7 @@
 #### name is the 'Name' of the image to be.
 #### width is the image's width.
 #### height is the image's height.
-#### fileExtension controls the format of the image.(Remeber only *.ppm right now)
+#### fileExtension controls the format of the image.(Remeber only (*.ppm, *.pbm, *.pgm, *.pnm) right now)
 
 ## Fractal.ini Explained
 ### [Main]

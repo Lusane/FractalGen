@@ -3,6 +3,9 @@
 
 # Program-specific files
 *.ppm
+*.pbm
+*.pgm
+*.pnm
 
 # User-specific files
 *.suo

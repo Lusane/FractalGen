@@ -81,12 +81,12 @@ void randomColors() {
 		temp_gDiv.resize(fConfig.setCount);
 		temp_bDiv.resize(fConfig.setCount);
 		for (int sets = 0; sets < fConfig.setCount; sets++) {
-			temp_rMlt[sets] = (double)(rand() % ((rand() % 100) + 1)) + 1;
-			temp_rDiv[sets] = (rand() % ((rand() % 1000) + 1)) + 1;
-			temp_gMlt[sets] = (double)(rand() % ((rand() % 100) + 1)) + 1;
-			temp_gDiv[sets] = (rand() % ((rand() % 1000) + 1)) + 1;
-			temp_bMlt[sets] = (double)(rand() % ((rand() % 100) + 1)) + 1;
-			temp_bDiv[sets] = (rand() % ((rand() % 1000) + 1)) + 1;
+			temp_rMlt[sets] = (double)(rand() % ((rand() % fConfig.rMltLimit) + 1)) + 1;
+			temp_rDiv[sets] = (int)(rand() % ((rand() % fConfig.rDivLimit) + 1)) + 1;
+			temp_gMlt[sets] = (double)(rand() % ((rand() % fConfig.gMltLimit) + 1)) + 1;
+			temp_gDiv[sets] = (int)(rand() % ((rand() % fConfig.gDivLimit) + 1)) + 1;
+			temp_bMlt[sets] = (double)(rand() % ((rand() % fConfig.bMltLimit) + 1)) + 1;
+			temp_bDiv[sets] = (int)(rand() % ((rand() % fConfig.bDivLimit) + 1)) + 1;
 		}
 
 		for (int td = 0; td < mConfig.ThreadCount; td++) {
@@ -99,6 +99,12 @@ void randomColors() {
 				frac.bDiv[td][st] = temp_bDiv[st];
 			}
 		}
+		temp_rMlt.resize(0);
+		temp_gMlt.resize(0);
+		temp_bMlt.resize(0);
+		temp_rDiv.resize(0);
+		temp_gDiv.resize(0);
+		temp_bDiv.resize(0);
 	}
 }
 
@@ -106,13 +112,6 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 {
 	std::stringstream ID;
 	ID << id;
-	std::string logname = "Thread_RGB_";
-	std::string logExt = ".txt";
-	std::ofstream temp_log(logname + ID.str() + logExt);
-
-	for (int s = 0; s < fConfig.setCount; s++) {
-		temp_log << "rMlt set " << s + 1 << ": " << frac.rMlt[id][s] << std::endl << "rDiv set " << s + 1 << ": " << frac.rDiv[id][s] << std::endl << "gMlt set " << s + 1 << ": " << frac.gMlt[id][s] << std::endl << "gDiv set " << s + 1 << ": " << frac.gMlt[id][s] << std::endl << "bMlt set " << s + 1 << ": " << frac.bMlt[id][s] << std::endl << "bDiv set " << s + 1 << ": " << frac.bDiv[id][s] << std::endl << std::endl;
-	}
 
 	Geni[id] = true;
 	int Set[8] = { fConfig.set1, fConfig.set2, fConfig.set3, fConfig.set4, fConfig.set5, fConfig.set6, fConfig.set7, fConfig.set8 };
@@ -137,13 +136,13 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 
 	n = new int[fConfig.setCount];
 
-	float* fRed;
-	float* fGreen;
-	float* fBlue;
+	double* dRed;
+	double* dGreen;
+	double* dBlue;
 
-	fRed = new float[fConfig.setCount];
-	fGreen = new float[fConfig.setCount];
-	fBlue = new float[fConfig.setCount];
+	dRed = new double[fConfig.setCount];
+	dGreen = new double[fConfig.setCount];
+	dBlue = new double[fConfig.setCount];
 
 	for (y = 0; y < (int)(ceil(frac.height / mConfig.ThreadCount) + 1); y++)
 	{
@@ -181,15 +180,12 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 					break;
 				}
 
-				fRed[st] = frac.SaftyNet((float)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI));
-				fGreen[st] = frac.SaftyNet((float)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI));
-				fBlue[st] = frac.SaftyNet((float)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI));
-				temp_log << "fRed set " << st + 1 << ": " << fRed[st] << std::endl << "fGreen set " << st + 1 << ": " << fGreen[st] << std::endl << "fBlue set " << st + 1 << fBlue[st] << std::endl << std::endl;
+				dRed[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI));
+				dGreen[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI));
+				dBlue[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI));
 			}
 
-			Thread_RGB[id][y][x] = frac.getRGB(fRed,fGreen,fBlue,ID.str());
-
-			temp_log << "Thread_RGB thread " << id << " y " << y << " x " << x << ": " << Thread_RGB[id][y][x] << std::endl << std::endl;
+			Thread_RGB[id][y][x] = frac.getRGB(dRed,dGreen,dBlue,ID.str());
 
 			if (x != 0 && y != 0)
 			{
@@ -211,9 +207,9 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 
 		_y++;
 	}
+
 	Geni[id] = false;
 	Done_Geni[id] = true;
-	temp_log.close();
 	Sleep(10);
 	std::this_thread::yield();
 }
@@ -348,8 +344,6 @@ void MainLoopControl() {
 	while (ContinueRunning && !ForceShutDown && !ReInitThreads)
 	{
 		if (isWIN) {
-			_WIN_getVirtualRamAmount();
-			_WIN_getTheRamAmount();
 			_WIN_getCPUcount();
 		}
 		bool bCProg = mConfig.CoutProgress;
@@ -400,7 +394,7 @@ void ControlValueInit()
 	}
 
 	threadProgs.resize(mConfig.ThreadCount);
-	for (int tpCap = 0; tpCap < (int)threadProgs.capacity(); tpCap++)
+	for (int tpCap = 0; tpCap < mConfig.ThreadCount; tpCap++)
 	{
 		threadProgs[tpCap].resize(2);
 	}

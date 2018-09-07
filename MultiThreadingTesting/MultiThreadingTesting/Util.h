@@ -28,39 +28,6 @@
 #include "ini.h"
 
 int ncpu = 1;
-float ramVirtAvail = 4.0f;
-float totalVirtRam = 0.0f;
-float virtRamInUseByMe = 0.0f;
-float virtRamInUse = 0.0f;
-float ramPhsyAvail = 4.0f;
-float totalPhsyRam = 4.0f;
-float phsyRamInUseByMe = 0.0f;
-float phsyRamInUse = 0.0f;
-
-MEMORYSTATUSEX statex;
-PROCESS_MEMORY_COUNTERS PMC;
-
-void _WIN_getVirtualRamAmount() {
-	statex.dwLength = sizeof(statex);
-	GlobalMemoryStatusEx(&statex);
-	totalVirtRam = (float)statex.ullTotalPageFile / (1024*1024*1024);
-	ramVirtAvail = (float)statex.ullAvailPageFile / (1024*1024*1024);
-	virtRamInUse = ((float)statex.ullTotalPageFile - (float)statex.ullAvailPageFile) / (1024*1024*1024);
-	GetProcessMemoryInfo(GetCurrentProcess(), &PMC, sizeof(PMC));
-	virtRamInUseByMe = (float)PMC.PagefileUsage / (1024*1024*1024);
-	//std::cout << "total virtual ram in this system: " << totalVirtRam << std::endl << "virtual ram available currently: " << ramVirtAvail << std::endl << "virtual ram currently bing used by this program: " << virtRamInUseByMe << std::endl << std::endl;
-}
-
-void _WIN_getTheRamAmount () {
-	statex.dwLength = sizeof(statex); 
-	GlobalMemoryStatusEx(&statex);
-	totalPhsyRam = (float)statex.ullTotalPhys / (1024*1024*1024);
-	ramPhsyAvail = (float)statex.ullAvailPhys / (1024*1024*1024);
-	phsyRamInUse = ((float)statex.ullTotalPhys - (float)statex.ullAvailPhys) / (1024*1024*1024);
-	GetProcessMemoryInfo(GetCurrentProcess(), &PMC, sizeof(PMC));
-	phsyRamInUseByMe = (float)PMC.WorkingSetSize / (1024*1024*1024);
-	//std::cout << "total physical ram in this system: " << totalPhsyRam << std::endl << "physical ram available currently: " << ramPhsyAvail << std::endl << "physical ram currently bing used by this program: " << phsyRamInUseByMe << std::endl << std::endl;
-}
 
 void _WIN_getCPUcount () {
 	SYSTEM_INFO sysinfo;
@@ -132,87 +99,6 @@ bool is64Bit = true;
 bool is64bit = false;
 #endif
 #endif**/
-
-/**class exceptionChecking {
-public:
-	static void int64Checking(INT64 v) {
-		if (v > INT64_MAX) {
-			throw std::out_of_range("an INT64 was out of max range");
-		}
-		if (v > INT64_MIN) {
-			throw std::out_of_range("an INT64 was out of min range");
-		}
-	}
-
-	static void int32Checking(INT32 v) {
-		if (v > INT32_MAX) {
-			throw std::out_of_range("an INT32 was out of max range");
-		}
-		if (v < INT32_MIN) {
-			throw std::out_of_range("an INT32 was out of min range");
-		}
-	}
-
-	static void int16Checking(INT16 v) {
-		if (v > INT16_MAX) {
-			throw std::out_of_range("an INT16 was out of max range");
-		}
-		if (v > INT16_MIN) {
-			throw std::out_of_range("an INT16 was out of min range");
-		}
-	}
-
-	static void int8checking(INT8 v) {
-		if (v > INT8_MAX) {
-			throw std::out_of_range("an INT8 was out of max range");
-		}
-		if (v < INT8_MIN) {
-			throw std::out_of_range("an INT8 was out of min range");
-		}
-	}
-};
-
-int input8Checking(INT8 val) {
-	try {
-		exceptionChecking::int8checking(val);
-	}
-	catch (const std::out_of_range& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
-	return -1;
-}
-
-int input16Checking(INT16 val) {
-	try {
-		exceptionChecking::int16Checking(val);
-	}
-	catch (const std::out_of_range& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
-	return -1;
-}
-
-int input32Checking(INT32 val) {
-	try {
-		exceptionChecking::int32Checking(val);
-	}
-	catch (const std::out_of_range& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
-	return -1;
-}
-
-int input64Checking(INT64 val) {
-	try {
-		exceptionChecking::int64Checking(val);
-	}
-	catch (const std::out_of_range& ex) {
-		std::cerr << ex.what() << std::endl;
-	}
-	return -1;
-}**/
-
-//check to see if the os is 64 or 32 bit
 
 const double PI = 3.141592653589793;
 
