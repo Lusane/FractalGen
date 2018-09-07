@@ -53,10 +53,22 @@ typedef struct {
 	int setCount;
 	bool useDefaults;
 	bool useSetDeaults;
+	bool randomFractalValues;
 	bool randomColorValues;
 	bool Inverted;
 	bool Intensify;
 	float Intensity;
+
+	//For RFC Section
+	int zrLimit;
+	int ziLimit;
+	int maxRLimit;
+	int minRLimit;
+	int maxILimit;
+	int minILimit;
+	int maxNLimit;
+	int zLimit;
+	int maxZLimit;
 
 	//For RCC Section
 	int rMltLimit;
@@ -92,6 +104,9 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	else if (MATCH("Main", "useSetDefaults")) {
 		fconfig->useSetDeaults = atoi(value);
 	}
+	else if (MATCH("Main","randomFractalValue")) {
+		fconfig->randomFractalValues = atoi(value);
+	}
 	else if (MATCH("Main", "randomColorValues")) {
 		fconfig->randomColorValues = atoi(value);
 	}
@@ -103,6 +118,34 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	}
 	else if (MATCH("Main", "Intensity")) {
 		fconfig->Intensity = (float)atof(value);
+	}
+	//RFC
+	else if (MATCH("RFC", "zrLimit")) {
+		fconfig->zrLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "ziLimit")) {
+		fconfig->ziLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "maxRLimit")) {
+		fconfig->maxRLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "minRLimit")) {
+		fconfig->minRLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "maxILimit")) {
+		fconfig->maxILimit = atoi(value);
+	}
+	else if (MATCH("RFC", "minILimit")) {
+		fconfig->minILimit = atoi(value);
+	}
+	else if (MATCH("RFC", "maxNLimit")) {
+		fconfig->maxNLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "zLimit")) {
+		fconfig->zLimit = atoi(value);
+	}
+	else if (MATCH("RFC", "maxZLimit")) {
+		fconfig->maxZLimit = atoi(value);
 	}
 	//RCC
 	else if (MATCH("RCC", "rMltLimit")) {

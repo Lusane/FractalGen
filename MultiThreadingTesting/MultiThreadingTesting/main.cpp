@@ -70,6 +70,54 @@ void checkForDefaultsUse(int Set, int TID, int set) {
 
 }
 
+void randomFracValues() {
+	if (fConfig.randomFractalValues) {
+		std::vector<double> temp_zr, temp_zi, temp_maxR, temp_minR, temp_maxI, temp_minI;
+		std::vector<int> temp_maxN;
+		std::vector <float> temp_z, temp_maxZ;
+		temp_zr.resize(fConfig.setCount);
+		temp_zi.resize(fConfig.setCount);
+		temp_maxR.resize(fConfig.setCount);
+		temp_minR.resize(fConfig.setCount);
+		temp_maxI.resize(fConfig.setCount);
+		temp_minI.resize(fConfig.setCount);
+		temp_maxN.resize(fConfig.setCount);
+		temp_z.resize(fConfig.setCount);
+		temp_maxZ.resize(fConfig.setCount);
+
+
+		//FIX THE EQUATIONS TO MORE STABLE
+		for (int sets = 0; sets < fConfig.setCount; sets++) {
+			temp_zr[sets] = (double)(rand() % ((rand() % fConfig.zrLimit) + 1)) + 1;
+			temp_zi[sets] = (double)(rand() % ((rand() % fConfig.ziLimit) + 1)) + 1;
+
+			temp_maxR[sets] = (double)(rand() % ((rand() % fConfig.maxRLimit) + 1)) + 1;
+			temp_minR[sets] = (double)(rand() % ((rand() % fConfig.minRLimit) + 1)) + 1;
+			temp_maxI[sets] = (double)(rand() % ((rand() % fConfig.maxILimit) + 1)) + 1;
+			temp_minI[sets] = (double)(rand() % ((rand() % fConfig.minILimit) + 1)) + 1;
+
+			temp_maxN[sets] = (int)(rand() % ((rand() % fConfig.maxNLimit) + 1)) + 1;
+
+			temp_z[sets] = (float)(rand() % ((rand() % fConfig.zLimit) + 1)) + 1;
+			temp_maxZ[sets] = (float)(rand() % ((rand() % fConfig.maxZLimit) + 1)) + 1;
+		}
+
+		for (int td = 0; td < mConfig.ThreadCount; td++) {
+			for (int st = 0; st < fConfig.setCount; st++) {
+				frac._zr[td][st] = temp_zr[st];
+				frac._zi[td][st] = temp_zi[st];
+				frac.maxR[td][st] = temp_maxR[st];
+				frac.minR[td][st] = temp_minR[st];
+				frac.maxI[td][st] = temp_maxI[st];
+				frac.minI[td][st] = temp_minI[st];
+				frac.maxN[td][st] = temp_maxN[st];
+				frac.z[td][st] = temp_z[st];
+				frac.maxZ[td][st] = temp_maxZ[st];
+			}
+		}
+	}
+}
+
 void randomColors() {
 	if (fConfig.randomColorValues) {
 		std::vector<double> temp_rMlt, temp_gMlt, temp_bMlt;
@@ -322,6 +370,7 @@ void loop() {
 	Sleep(10);
 
 	randomColors();
+	randomFracValues();
 
 	pause();
 
