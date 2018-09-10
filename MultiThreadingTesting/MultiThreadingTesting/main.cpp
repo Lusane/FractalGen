@@ -3,82 +3,91 @@
 
 std::vector<std::thread> MTs;
 
-void checkForDefaultsUse(int Set, int TID, int set) {
+void checkForDefaultsUse() {
 	if (fConfig.useDefaults || fConfig.useSetDeaults) {
-		switch (Set) {
-		case 0:	frac._zr[TID][set] = MandelBrot::zr_[set];
-				frac._zi[TID][set] = MandelBrot::zi_[set];
-				frac.maxR[TID][set] = MandelBrot::maxR_[set];
-				frac.minR[TID][set] = MandelBrot::minR_[set];
-				frac.maxI[TID][set] = MandelBrot::maxI_[set];
-				frac.minI[TID][set] = MandelBrot::minI_[set];
-				frac.maxN[TID][set] = MandelBrot::maxN_[set];
-				frac.z[TID][set] = MandelBrot::z_[set];
-				frac.maxZ[TID][set] = MandelBrot::maxZ_[set];
-			break;
-		case 1:	frac._zr[TID][set] = Castle::zr_[set];
-				frac._zi[TID][set] = Castle::zi_[set];
-				frac.maxR[TID][set] = Castle::maxR_[set];
-				frac.minR[TID][set] = Castle::minR_[set];
-				frac.maxI[TID][set] = Castle::maxI_[set];
-				frac.minI[TID][set] = Castle::minI_[set];
-				frac.maxN[TID][set] = Castle::maxN_[set];
-				frac.z[TID][set] = Castle::z_[set];
-				frac.maxZ[TID][set] = Castle::maxZ_[set];
-			break;
-		case 2:	frac._zr[TID][set] = HalCorrupted::zr_[set];
-				frac._zi[TID][set] = HalCorrupted::zi_[set];
-				frac.maxR[TID][set] = HalCorrupted::maxR_[set];
-				frac.minR[TID][set] = HalCorrupted::minR_[set];
-				frac.maxI[TID][set] = HalCorrupted::maxI_[set];
-				frac.minI[TID][set] = HalCorrupted::minI_[set];
-				frac.maxN[TID][set] = HalCorrupted::maxN_[set];
-				frac.z[TID][set] = HalCorrupted::z_[set];
-				frac.maxZ[TID][set] = HalCorrupted::maxZ_[set];
-			break;
-		case 3:	frac._zr[TID][set] = HourGlass::zr_[set];
-				frac._zi[TID][set] = HourGlass::zi_[set];
-				frac.maxR[TID][set] = HourGlass::maxR_[set];
-				frac.minR[TID][set] = HourGlass::minR_[set];
-				frac.maxI[TID][set] = HourGlass::maxI_[set];
-				frac.minI[TID][set] = HourGlass::minI_[set];
-				frac.maxN[TID][set] = HourGlass::maxN_[set];
-				frac.z[TID][set] = HourGlass::z_[set];
-				frac.maxZ[TID][set] = HourGlass::maxZ_[set];
-			break;
-		case 4:	frac._zr[TID][set] = StarBurst::zr_[set];
-				frac._zi[TID][set] = StarBurst::zi_[set];
-				frac.maxR[TID][set] = StarBurst::maxR_[set];
-				frac.minR[TID][set] = StarBurst::minR_[set];
-				frac.maxI[TID][set] = StarBurst::maxI_[set];
-				frac.minI[TID][set] = StarBurst::minI_[set];
-				frac.maxN[TID][set] = StarBurst::maxN_[set];
-				frac.z[TID][set] = StarBurst::z_[set];
-				frac.maxZ[TID][set] = StarBurst::maxZ_[set];
-			break;
+		int Sets[8] = {
+			fConfig.set1,
+			fConfig.set2,
+			fConfig.set3,
+			fConfig.set4,
+			fConfig.set5,
+			fConfig.set6,
+			fConfig.set7,
+			fConfig.set8
+		};
+		for (int TID = 0; TID < mConfig.ThreadCount; TID++) {
+			for (int set = 0; set < fConfig.setCount; set++) {
+				switch (Sets[set]) {
+					case 0:	frac._zr[TID][set] = MandelBrot::zr_[set];
+						frac._zi[TID][set] = MandelBrot::zi_[set];
+						frac.maxR[TID][set] = MandelBrot::maxR_[set];
+						frac.minR[TID][set] = MandelBrot::minR_[set];
+						frac.maxI[TID][set] = MandelBrot::maxI_[set];
+						frac.minI[TID][set] = MandelBrot::minI_[set];
+						frac.maxN[TID][set] = MandelBrot::maxN_[set];
+						frac.z[TID][set] = MandelBrot::z_[set];
+						frac.maxZ[TID][set] = MandelBrot::maxZ_[set];
+						break;
+					case 1:	frac._zr[TID][set] = Castle::zr_[set];
+						frac._zi[TID][set] = Castle::zi_[set];
+						frac.maxR[TID][set] = Castle::maxR_[set];
+						frac.minR[TID][set] = Castle::minR_[set];
+						frac.maxI[TID][set] = Castle::maxI_[set];
+						frac.minI[TID][set] = Castle::minI_[set];
+						frac.maxN[TID][set] = Castle::maxN_[set];
+						frac.z[TID][set] = Castle::z_[set];
+						frac.maxZ[TID][set] = Castle::maxZ_[set];
+						break;
+					case 2:	frac._zr[TID][set] = HalCorrupted::zr_[set];
+						frac._zi[TID][set] = HalCorrupted::zi_[set];
+						frac.maxR[TID][set] = HalCorrupted::maxR_[set];
+						frac.minR[TID][set] = HalCorrupted::minR_[set];
+						frac.maxI[TID][set] = HalCorrupted::maxI_[set];
+						frac.minI[TID][set] = HalCorrupted::minI_[set];
+						frac.maxN[TID][set] = HalCorrupted::maxN_[set];
+						frac.z[TID][set] = HalCorrupted::z_[set];
+						frac.maxZ[TID][set] = HalCorrupted::maxZ_[set];
+						break;
+					case 3:	frac._zr[TID][set] = HourGlass::zr_[set];
+						frac._zi[TID][set] = HourGlass::zi_[set];
+						frac.maxR[TID][set] = HourGlass::maxR_[set];
+						frac.minR[TID][set] = HourGlass::minR_[set];
+						frac.maxI[TID][set] = HourGlass::maxI_[set];
+						frac.minI[TID][set] = HourGlass::minI_[set];
+						frac.maxN[TID][set] = HourGlass::maxN_[set];
+						frac.z[TID][set] = HourGlass::z_[set];
+						frac.maxZ[TID][set] = HourGlass::maxZ_[set];
+						break;
+					case 4:	frac._zr[TID][set] = StarBurst::zr_[set];
+						frac._zi[TID][set] = StarBurst::zi_[set];
+						frac.maxR[TID][set] = StarBurst::maxR_[set];
+						frac.minR[TID][set] = StarBurst::minR_[set];
+						frac.maxI[TID][set] = StarBurst::maxI_[set];
+						frac.minI[TID][set] = StarBurst::minI_[set];
+						frac.maxN[TID][set] = StarBurst::maxN_[set];
+						frac.z[TID][set] = StarBurst::z_[set];
+						frac.maxZ[TID][set] = StarBurst::maxZ_[set];
+						break;
+				}
+
+				if (fConfig.useDefaults) {
+					frac.rMlt[TID][set] = Color::rMlt_[set];
+					frac.rDiv[TID][set] = Color::rDiv_[set];
+					frac.gMlt[TID][set] = Color::gMlt_[set];
+					frac.gDiv[TID][set] = Color::gDiv_[set];
+					frac.bMlt[TID][set] = Color::bMlt_[set];
+					frac.bDiv[TID][set] = Color::bDiv_[set];
+				}
+			}
 		}
 	}
-
-	if (fConfig.useDefaults) {
-		frac.rMlt[TID][set] = Color::rMlt_[set];
-		frac.rDiv[TID][set] = Color::rDiv_[set];
-		frac.gMlt[TID][set] = Color::gMlt_[set];
-		frac.gDiv[TID][set] = Color::gDiv_[set];
-		frac.bMlt[TID][set] = Color::bMlt_[set];
-		frac.bDiv[TID][set] = Color::bDiv_[set];
-	}
-
 }
 
 void randomFracValues() {
-
-	std::ofstream randomFracLog;
-	randomFracLog.open("randomFracLog.txt");
-
 	if (fConfig.randomFractalValues) {
 		std::vector<double> temp_zr, temp_zi, temp_maxR, temp_minR, temp_maxI, temp_minI;
 		std::vector<int> temp_maxN;
-		std::vector <float> temp_z, temp_maxZ;
+		std::vector<float> temp_z, temp_maxZ;
 		temp_zr.resize(fConfig.setCount);
 		temp_zi.resize(fConfig.setCount);
 		temp_maxR.resize(fConfig.setCount);
@@ -89,16 +98,16 @@ void randomFracValues() {
 		temp_z.resize(fConfig.setCount);
 		temp_maxZ.resize(fConfig.setCount);
 
-		for (int sets = 0; sets < fConfig.setCount; sets++) {
-			temp_zr[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.zrSeed)), dRandomNum((int)time(0) / fConfig.zrSeed, fConfig.zrSafty, fConfig.zrLimit), double(rand() % (int)fConfig.zrLimit) + 1) * fConfig.zrSafty;
-			temp_zi[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.ziSeed)), dRandomNum((int)time(0) / fConfig.ziSeed, fConfig.ziSafty, fConfig.ziLimit), double(rand() % (int)fConfig.ziLimit) + 1) * fConfig.ziSafty;
-			temp_maxR[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.maxRSeed)), dRandomNum((int)time(0) / fConfig.maxRSeed, fConfig.maxRSafty, fConfig.maxRLimit), double(rand() % (int)fConfig.maxRLimit) + 1) / fConfig.maxRSafty;
-			temp_minR[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.minRSeed)), dRandomNum((int)time(0) / fConfig.minRSeed, fConfig.minRSafty, fConfig.minRLimit), double(rand() % (int)fConfig.minRLimit) + 1) / fConfig.minRSafty;
-			temp_maxI[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.maxISeed)), dRandomNum((int)time(0) / fConfig.maxISeed, fConfig.maxISafty, fConfig.maxILimit), double(rand() % (int)fConfig.maxILimit) + 1) / fConfig.maxISafty;
-			temp_minI[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.minISeed)), dRandomNum((int)time(0) / fConfig.minISeed, fConfig.minISafty, fConfig.minILimit), double(rand() % (int)fConfig.minILimit) + 1) / fConfig.minISafty;
-			temp_maxN[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.maxNSeed)), iRandomNum((int)time(0) / fConfig.maxNSeed, fConfig.maxNSafty, fConfig.maxNLimit), (rand() % (int)fConfig.maxNLimit) + 1) / fConfig.maxNSafty;
-			temp_z[sets] = fRandomNum((rand() % (int)(time(0) / fConfig.zSeed)), fRandomNum((int)time(0) / fConfig.zSeed, fConfig.zSafty, fConfig.zLimit), float(rand() % (int)fConfig.zLimit) + 1) / fConfig.zSafty;
-			temp_maxZ[sets] = fRandomNum((rand() % (int)(time(0) / fConfig.maxZSeed)), fRandomNum((int)time(0) / fConfig.maxZSeed, fConfig.maxZSafty, fConfig.maxZLimit), float(rand() % (int)fConfig.maxZLimit) + 1) / fConfig.maxZSafty;
+		for (int set = 0; set < fConfig.setCount; set++) {
+			temp_zr[set] = dRandomNum((rand() % (int)(time(0) / fConfig.zrSeed)), dRandomNum((int)time(0) / fConfig.zrSeed, fConfig.zrSafty, fConfig.zrLimit), double(rand() % (int)fConfig.zrLimit) + 1) * fConfig.zrSafty;
+			temp_zi[set] = dRandomNum((rand() % (int)(time(0) / fConfig.ziSeed)), dRandomNum((int)time(0) / fConfig.ziSeed, fConfig.ziSafty, fConfig.ziLimit), double(rand() % (int)fConfig.ziLimit) + 1) * fConfig.ziSafty;
+			temp_maxR[set] = dRandomNum((rand() % (int)(time(0) / fConfig.maxRSeed)), dRandomNum((int)time(0) / fConfig.maxRSeed, fConfig.maxRSafty, fConfig.maxRLimit), double(rand() % (int)fConfig.maxRLimit) + 1) / fConfig.maxRSafty;
+			temp_minR[set] = dRandomNum((rand() % (int)(time(0) / fConfig.minRSeed)), dRandomNum((int)time(0) / fConfig.minRSeed, fConfig.minRSafty, fConfig.minRLimit), double(rand() % (int)fConfig.minRLimit) + 1) / fConfig.minRSafty;
+			temp_maxI[set] = dRandomNum((rand() % (int)(time(0) / fConfig.maxISeed)), dRandomNum((int)time(0) / fConfig.maxISeed, fConfig.maxISafty, fConfig.maxILimit), double(rand() % (int)fConfig.maxILimit) + 1) / fConfig.maxISafty;
+			temp_minI[set] = dRandomNum((rand() % (int)(time(0) / fConfig.minISeed)), dRandomNum((int)time(0) / fConfig.minISeed, fConfig.minISafty, fConfig.minILimit), double(rand() % (int)fConfig.minILimit) + 1) / fConfig.minISafty;
+			temp_maxN[set] = iRandomNum((rand() % (int)(time(0) / fConfig.maxNSeed)), iRandomNum((int)time(0) / fConfig.maxNSeed, fConfig.maxNSafty, fConfig.maxNLimit), (rand() % fConfig.maxNLimit) + 1) / fConfig.maxNSafty;
+			temp_z[set] = fRandomNum((rand() % (int)(time(0) / fConfig.zSeed)), fRandomNum((int)time(0) / fConfig.zSeed, fConfig.zSafty, fConfig.zLimit), float(rand() % (int)fConfig.zLimit) + 1) / fConfig.zSafty;
+			temp_maxZ[set] = fRandomNum((rand() % (int)(time(0) / fConfig.maxZSeed)), fRandomNum((int)time(0) / fConfig.maxZSeed, fConfig.maxZSafty, fConfig.maxZLimit), float(rand() % (int)fConfig.maxZLimit) + 1) / fConfig.maxZSafty;
 		}
 
 		for (int td = 0; td < mConfig.ThreadCount; td++) {
@@ -112,12 +121,9 @@ void randomFracValues() {
 				frac.maxN[td][st] += temp_maxN[st];
 				frac.z[td][st] += temp_z[st];
 				frac.maxZ[td][st] += temp_maxZ[st];
-
-				randomFracLog << "zr set " << st << ": " << frac._zr[td][st] << std::endl << "zi set " << st << ": " << frac._zi[td][st] << std::endl << "maxR set " << st << ": " << frac.maxR[td][st] << std::endl << "minR set " << st << ": " << frac.minR[td][st] << std::endl << "maxI set " << st << ": " << frac.maxI[td][st] << std::endl << "minI set " << st << ": " << frac.minI[td][st] << std::endl << "maxN set " << st << ": " << frac.maxN[td][st] << std::endl << "z set " << st << ": " << frac.z[td][st] << std::endl << "maxZ set " << st << ": " << frac.maxZ[td][st] << std::endl;
 			}
 		}
 	}
-	randomFracLog.close();
 }
 
 void randomColors() {
@@ -130,6 +136,7 @@ void randomColors() {
 		temp_rDiv.resize(fConfig.setCount);
 		temp_gDiv.resize(fConfig.setCount);
 		temp_bDiv.resize(fConfig.setCount);
+
 		for (int sets = 0; sets < fConfig.setCount; sets++) {
 			temp_rMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.rMltSeed)), dRandomNum((int)time(0) / fConfig.rMltSeed, fConfig.rMltSafty, fConfig.rMltLimit), (rand() % (int)fConfig.rMltLimit) + 1);
 			temp_rDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.rDivSeed)), iRandomNum((int)time(0) / fConfig.rDivSeed, fConfig.rDivSafty, fConfig.rDivLimit), (rand() % (int)fConfig.rDivLimit) + 1);
@@ -212,9 +219,6 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 			{
 				cr[st] = frac.mapTo(_x, frac.width, frac.maxR[id][st], frac.minR[id][st]);
 				ci[st] = frac.mapTo(_y, frac.height, frac.maxI[id][st], frac.minI[id][st]);
-
-				checkForDefaultsUse(Set[st], id, st);
-
 
 				switch (Set[st])
 				{
@@ -371,8 +375,9 @@ void loop() {
 	InitMem();
 	Sleep(10);
 
-	randomColors();
+	checkForDefaultsUse();
 	randomFracValues();
+	randomColors();
 
 	pause();
 
