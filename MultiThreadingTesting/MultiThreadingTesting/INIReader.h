@@ -60,23 +60,53 @@ typedef struct {
 	float Intensity;
 
 	//For RFC Section
-	int zrLimit;
-	int ziLimit;
-	int maxRLimit;
-	int minRLimit;
-	int maxILimit;
-	int minILimit;
+	double zrSafty;
+	double zrLimit;
+	int zrSeed;
+	double ziSafty;
+	double ziLimit;
+	int ziSeed;
+	double maxRSafty;
+	double maxRLimit;
+	int maxRSeed;
+	double minRSafty;
+	double minRLimit;
+	int minRSeed;
+	double maxISafty;
+	double maxILimit;
+	int maxISeed;
+	double minISafty;
+	double minILimit;
+	int minISeed;
+	int maxNSafty;
 	int maxNLimit;
-	int zLimit;
-	int maxZLimit;
+	int maxNSeed;
+	float zSafty;
+	float zLimit;
+	int zSeed;
+	float maxZSafty;
+	float maxZLimit;
+	int maxZSeed;
 
 	//For RCC Section
-	int rMltLimit;
+	double rMltLimit;
+	double rMltSafty;
+	int rMltSeed;
 	int rDivLimit;
-	int gMltLimit;
+	int rDivSafty;
+	int rDivSeed;
+	double gMltLimit;
+	double gMltSafty;
+	int gMltSeed;
 	int gDivLimit;
-	int bMltLimit;
+	int gDivSafty;
+	int gDivSeed;
+	double bMltLimit;
+	double bMltSafty;
+	int bMltSeed;
 	int bDivLimit;
+	int bDivSafty;
+	int bDivSeed;
 
 	//For Sets Section
 	int set1;
@@ -120,51 +150,141 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 		fconfig->Intensity = (float)atof(value);
 	}
 	//RFC
+	else if (MATCH("RFC", "zrSafty")) {
+		fconfig->zrSafty = atof(value);
+	}
 	else if (MATCH("RFC", "zrLimit")) {
-		fconfig->zrLimit = atoi(value);
+		fconfig->zrLimit = atof(value);
+	}
+	else if (MATCH("RFC", "zrSeed")) {
+		fconfig->zrSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "ziSafty")) {
+		fconfig->ziSafty = atof(value);
 	}
 	else if (MATCH("RFC", "ziLimit")) {
-		fconfig->ziLimit = atoi(value);
+		fconfig->ziLimit = atof(value);
+	}
+	else if (MATCH("RFC", "ziSeed")) {
+		fconfig->ziSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "maxRSafty")) {
+		fconfig->maxRSafty = atof(value);
 	}
 	else if (MATCH("RFC", "maxRLimit")) {
-		fconfig->maxRLimit = atoi(value);
+		fconfig->maxRLimit = atof(value);
+	}
+	else if (MATCH("RFC", "maxRSeed")) {
+		fconfig->maxRSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "minRSafty")) {
+		fconfig->minRSafty = atof(value);
 	}
 	else if (MATCH("RFC", "minRLimit")) {
-		fconfig->minRLimit = atoi(value);
+		fconfig->minRLimit = atof(value);
+	}
+	else if (MATCH("RFC", "minRSeed")) {
+		fconfig->minRSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "maxISafty")) {
+		fconfig->maxISafty = atof(value);
 	}
 	else if (MATCH("RFC", "maxILimit")) {
-		fconfig->maxILimit = atoi(value);
+		fconfig->maxILimit = atof(value);
+	}
+	else if (MATCH("RFC", "maxISeed")) {
+		fconfig->maxISeed = atoi(value);
+	}
+	else if (MATCH("RFC", "minISafty")) {
+		fconfig->minISafty = atof(value);
 	}
 	else if (MATCH("RFC", "minILimit")) {
-		fconfig->minILimit = atoi(value);
+		fconfig->minILimit = atof(value);
+	}
+	else if (MATCH("RFC", "minISeed")) {
+		fconfig->minISeed = atoi(value);
+	}
+	else if (MATCH("RFC", "maxNSafty")) {
+		fconfig->maxNSafty = atoi(value);
 	}
 	else if (MATCH("RFC", "maxNLimit")) {
 		fconfig->maxNLimit = atoi(value);
 	}
+	else if (MATCH("RFC", "maxNSeed")) {
+		fconfig->maxNSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "zSafty")) {
+		fconfig->zSafty = (float)atof(value);
+	}
 	else if (MATCH("RFC", "zLimit")) {
-		fconfig->zLimit = atoi(value);
+		fconfig->zLimit = (float)atof(value);
+	}
+	else if (MATCH("RFC", "zSeed")) {
+		fconfig->zSeed = atoi(value);
+	}
+	else if (MATCH("RFC", "maxZSafty")) {
+		fconfig->maxZSafty = (float)atof(value);
 	}
 	else if (MATCH("RFC", "maxZLimit")) {
-		fconfig->maxZLimit = atoi(value);
+		fconfig->maxZLimit = (float)atof(value);
+	}
+	else if (MATCH("RFC", "maxZSeed")) {
+		fconfig->maxZSeed = atoi(value);
 	}
 	//RCC
 	else if (MATCH("RCC", "rMltLimit")) {
-		fconfig->rMltLimit = atoi(value);
+		fconfig->rMltLimit = atof(value);
+	}
+	else if (MATCH("RCC", "rMltSafty")) {
+		fconfig->rMltSafty = atof(value);
+	}
+	else if (MATCH("RCC", "rMltSeed")) {
+		fconfig->rMltSeed = atoi(value);
 	}
 	else if (MATCH("RCC", "rDivLimit")) {
 		fconfig->rDivLimit = atoi(value);
 	}
+	else if (MATCH("RCC", "rDivSafty")) {
+		fconfig->rDivSafty = atoi(value);
+	}
+	else if (MATCH("RCC", "rDivSeed")) {
+		fconfig->rDivSeed = atoi(value);
+	}
 	else if (MATCH("RCC", "gMltLimit")) {
-		fconfig->gMltLimit = atoi(value);
+		fconfig->gMltLimit = atof(value);
+	}
+	else if (MATCH("RCC", "gMltSafty")) {
+		fconfig->gMltSafty = atof(value);
+	}
+	else if (MATCH("RCC", "gMltSeed")) {
+		fconfig->gMltSeed = atoi(value);
 	}
 	else if (MATCH("RCC", "gDivLimit")) {
 		fconfig->gDivLimit = atoi(value);
 	}
+	else if (MATCH("RCC", "gDivSafty")) {
+		fconfig->gDivSafty = atoi(value);
+	}
+	else if (MATCH("RCC", "gDivSeed")) {
+		fconfig->gDivSeed = atoi(value);
+	}
 	else if (MATCH("RCC", "bMltLimit")) {
-		fconfig->bMltLimit = atoi(value);
+		fconfig->bMltLimit = atof(value);
+	}
+	else if (MATCH("RCC", "bMltSafty")) {
+		fconfig->bMltSafty = atof(value);
+	}
+	else if (MATCH("RCC", "bMltSeed")) {
+		fconfig->bMltSeed = atoi(value);
 	}
 	else if (MATCH("RCC", "bDivLimit")) {
 		fconfig->bDivLimit = atoi(value);
+	}
+	else if (MATCH("RCC", "bDivSafty")) {
+		fconfig->bDivSafty = atoi(value);
+	}
+	else if (MATCH("RCC", "bDivSeed")) {
+		fconfig->bDivSeed = atoi(value);
 	}
 	//Sets
 	else if (MATCH("Sets", "set1")) {

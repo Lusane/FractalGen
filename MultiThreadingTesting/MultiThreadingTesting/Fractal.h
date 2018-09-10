@@ -41,7 +41,70 @@ typedef struct {
 		return axis * (range / size) + min;
 	};
 
-	int SaftyNet(int color) {
+	int fractalSaftyNet(int FracValue) {
+		int Limit = 999999999;
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	float fractalSaftyNet(float FracValue) {
+		float Limit = 999999999.f;
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	double fractalSaftyNet(double FracValue) {
+		double Limit = 999999999.9;
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	int fractalSaftyNet(int FracValue,int Limit) {
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	float fractalSaftyNet(float FracValue, float Limit) {
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	double fractalSaftyNet(double FracValue, double Limit) {
+		if (FracValue >= Limit) {
+			return Limit;
+		}
+		else if (FracValue == 0) {
+			return 1;
+		}
+		return FracValue;
+	}
+
+	int ColorSaftyNet(int color) {
 		if (color == 0) {
 			return 1;
 		}
@@ -51,7 +114,7 @@ typedef struct {
 		return color;
 	}
 
-	float SaftyNet(float color) {
+	float ColorSaftyNet(float color) {
 		if (color == 0.f) {
 			return 1.f;
 		}
@@ -61,7 +124,7 @@ typedef struct {
 		return color;
 	}
 
-	double SaftyNet(double color) {
+	double ColorSaftyNet(double color) {
 		if (color == 0.0) {
 			return 1.0;
 		}
@@ -72,11 +135,11 @@ typedef struct {
 	}
 
 	int addFractalSets(double v, double d) {
-		return SaftyNet((int)(v + d));
+		return ColorSaftyNet((int)(v + d));
 	}
 
 	int subFractalSets(double v, double d) {
-		return SaftyNet((int)(v - d));
+		return ColorSaftyNet((int)(v - d));
 	}
 
 	std::string getRGB(double *dRed, double *dGreen, double *dBlue, std::string id) {
@@ -87,17 +150,17 @@ typedef struct {
 		if (fConfig.Inverted) {
 
 			for (int rn = 0; rn < fConfig.setCount; rn++) {
-				red = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				green = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				blue = SaftyNet((int)(subFractalSets((((double)addFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				red = ColorSaftyNet((int)(subFractalSets((((double)addFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				green = ColorSaftyNet((int)(subFractalSets((((double)addFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				blue = ColorSaftyNet((int)(subFractalSets((((double)addFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
 			}
 		}
 		else if(!fConfig.Inverted) {
 
 			for (int rn = 0; rn < fConfig.setCount; rn++) {
-				red = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				green = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
-				blue = SaftyNet((int)(addFractalSets((((double)subFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				red = ColorSaftyNet((int)(addFractalSets((((double)subFractalSets((double)red, dRed[rn]) / fConfig.setCount) + (int)PI), dRed[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				green = ColorSaftyNet((int)(addFractalSets((((double)subFractalSets((double)green, dGreen[rn]) / fConfig.setCount) + (int)PI), dGreen[fConfig.setCount-rn]) * mConfig.ThreadCount));
+				blue = ColorSaftyNet((int)(addFractalSets((((double)subFractalSets((double)blue, dBlue[rn]) / fConfig.setCount) + (int)PI), dBlue[fConfig.setCount-rn]) * mConfig.ThreadCount));
 			}
 		}
 		
@@ -107,9 +170,9 @@ typedef struct {
 			blue = (int)floor(blue * (int)fConfig.Intensity);
 		}
 
-		red = SaftyNet(red);
-		green = SaftyNet(green);
-		blue = SaftyNet(blue);
+		red = ColorSaftyNet(red);
+		green = ColorSaftyNet(green);
+		blue = ColorSaftyNet(blue);
 
 		std::stringstream r;
 		r << red;

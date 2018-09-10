@@ -146,3 +146,30 @@ void Timestamp(std::string text) {
 	std::cout << now->tm_min << ":";
 	std::cout << now->tm_sec << std::endl;
 }
+
+time_t getCurrentTimeInSec() {
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	return now->tm_sec;
+}
+
+int iRandomNum(int randSeed, int low, int high) {
+	srand((unsigned)randSeed);
+	int lowest = low, highest = high;
+	int range = (highest - lowest) + 1;
+	return (lowest + int(range*rand() / (RAND_MAX + 1.0)));
+}
+
+float fRandomNum(int randSeed, float low, float high) {
+	srand((unsigned)randSeed);
+	float lowest = low, highest = high;
+	float range = (highest - lowest) + 1;
+	return (lowest + float(range*rand() / (RAND_MAX + 1.0)));
+}
+
+double dRandomNum(int randSeed, double low, double high) {
+	srand((unsigned)randSeed);
+	double lowest = low, highest = high;
+	double range = (highest - lowest) + 1;
+	return (lowest + double(range*rand() / (RAND_MAX + 1.0)));
+}

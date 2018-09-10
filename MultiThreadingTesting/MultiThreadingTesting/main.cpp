@@ -71,6 +71,10 @@ void checkForDefaultsUse(int Set, int TID, int set) {
 }
 
 void randomFracValues() {
+
+	std::ofstream randomFracLog;
+	randomFracLog.open("randomFracLog.txt");
+
 	if (fConfig.randomFractalValues) {
 		std::vector<double> temp_zr, temp_zi, temp_maxR, temp_minR, temp_maxI, temp_minI;
 		std::vector<int> temp_maxN;
@@ -85,37 +89,35 @@ void randomFracValues() {
 		temp_z.resize(fConfig.setCount);
 		temp_maxZ.resize(fConfig.setCount);
 
-
-		//FIX THE EQUATIONS TO MORE STABLE
 		for (int sets = 0; sets < fConfig.setCount; sets++) {
-			temp_zr[sets] = (double)(rand() % ((rand() % fConfig.zrLimit) + 1)) + 1;
-			temp_zi[sets] = (double)(rand() % ((rand() % fConfig.ziLimit) + 1)) + 1;
-
-			temp_maxR[sets] = (double)(rand() % ((rand() % fConfig.maxRLimit) + 1)) + 1;
-			temp_minR[sets] = (double)(rand() % ((rand() % fConfig.minRLimit) + 1)) + 1;
-			temp_maxI[sets] = (double)(rand() % ((rand() % fConfig.maxILimit) + 1)) + 1;
-			temp_minI[sets] = (double)(rand() % ((rand() % fConfig.minILimit) + 1)) + 1;
-
-			temp_maxN[sets] = (int)(rand() % ((rand() % fConfig.maxNLimit) + 1)) + 1;
-
-			temp_z[sets] = (float)(rand() % ((rand() % fConfig.zLimit) + 1)) + 1;
-			temp_maxZ[sets] = (float)(rand() % ((rand() % fConfig.maxZLimit) + 1)) + 1;
+			temp_zr[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.zrSeed)), dRandomNum((int)time(0) / fConfig.zrSeed, fConfig.zrSafty, fConfig.zrLimit), double(rand() % (int)fConfig.zrLimit) + 1) * fConfig.zrSafty;
+			temp_zi[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.ziSeed)), dRandomNum((int)time(0) / fConfig.ziSeed, fConfig.ziSafty, fConfig.ziLimit), double(rand() % (int)fConfig.ziLimit) + 1) * fConfig.ziSafty;
+			temp_maxR[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.maxRSeed)), dRandomNum((int)time(0) / fConfig.maxRSeed, fConfig.maxRSafty, fConfig.maxRLimit), double(rand() % (int)fConfig.maxRLimit) + 1) / fConfig.maxRSafty;
+			temp_minR[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.minRSeed)), dRandomNum((int)time(0) / fConfig.minRSeed, fConfig.minRSafty, fConfig.minRLimit), double(rand() % (int)fConfig.minRLimit) + 1) / fConfig.minRSafty;
+			temp_maxI[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.maxISeed)), dRandomNum((int)time(0) / fConfig.maxISeed, fConfig.maxISafty, fConfig.maxILimit), double(rand() % (int)fConfig.maxILimit) + 1) / fConfig.maxISafty;
+			temp_minI[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.minISeed)), dRandomNum((int)time(0) / fConfig.minISeed, fConfig.minISafty, fConfig.minILimit), double(rand() % (int)fConfig.minILimit) + 1) / fConfig.minISafty;
+			temp_maxN[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.maxNSeed)), iRandomNum((int)time(0) / fConfig.maxNSeed, fConfig.maxNSafty, fConfig.maxNLimit), (rand() % (int)fConfig.maxNLimit) + 1) / fConfig.maxNSafty;
+			temp_z[sets] = fRandomNum((rand() % (int)(time(0) / fConfig.zSeed)), fRandomNum((int)time(0) / fConfig.zSeed, fConfig.zSafty, fConfig.zLimit), float(rand() % (int)fConfig.zLimit) + 1) / fConfig.zSafty;
+			temp_maxZ[sets] = fRandomNum((rand() % (int)(time(0) / fConfig.maxZSeed)), fRandomNum((int)time(0) / fConfig.maxZSeed, fConfig.maxZSafty, fConfig.maxZLimit), float(rand() % (int)fConfig.maxZLimit) + 1) / fConfig.maxZSafty;
 		}
 
 		for (int td = 0; td < mConfig.ThreadCount; td++) {
 			for (int st = 0; st < fConfig.setCount; st++) {
-				frac._zr[td][st] = temp_zr[st];
-				frac._zi[td][st] = temp_zi[st];
-				frac.maxR[td][st] = temp_maxR[st];
-				frac.minR[td][st] = temp_minR[st];
-				frac.maxI[td][st] = temp_maxI[st];
-				frac.minI[td][st] = temp_minI[st];
-				frac.maxN[td][st] = temp_maxN[st];
-				frac.z[td][st] = temp_z[st];
-				frac.maxZ[td][st] = temp_maxZ[st];
+				frac._zr[td][st] += temp_zr[st];
+				frac._zi[td][st] += temp_zi[st];
+				frac.maxR[td][st] += temp_maxR[st];
+				frac.minR[td][st] += temp_minR[st];
+				frac.maxI[td][st] += temp_maxI[st];
+				frac.minI[td][st] += temp_minI[st];
+				frac.maxN[td][st] += temp_maxN[st];
+				frac.z[td][st] += temp_z[st];
+				frac.maxZ[td][st] += temp_maxZ[st];
+
+				randomFracLog << "zr set " << st << ": " << frac._zr[td][st] << std::endl << "zi set " << st << ": " << frac._zi[td][st] << std::endl << "maxR set " << st << ": " << frac.maxR[td][st] << std::endl << "minR set " << st << ": " << frac.minR[td][st] << std::endl << "maxI set " << st << ": " << frac.maxI[td][st] << std::endl << "minI set " << st << ": " << frac.minI[td][st] << std::endl << "maxN set " << st << ": " << frac.maxN[td][st] << std::endl << "z set " << st << ": " << frac.z[td][st] << std::endl << "maxZ set " << st << ": " << frac.maxZ[td][st] << std::endl;
 			}
 		}
 	}
+	randomFracLog.close();
 }
 
 void randomColors() {
@@ -129,12 +131,12 @@ void randomColors() {
 		temp_gDiv.resize(fConfig.setCount);
 		temp_bDiv.resize(fConfig.setCount);
 		for (int sets = 0; sets < fConfig.setCount; sets++) {
-			temp_rMlt[sets] = (double)(rand() % ((rand() % fConfig.rMltLimit) + 1)) + 1;
-			temp_rDiv[sets] = (int)(rand() % ((rand() % fConfig.rDivLimit) + 1)) + 1;
-			temp_gMlt[sets] = (double)(rand() % ((rand() % fConfig.gMltLimit) + 1)) + 1;
-			temp_gDiv[sets] = (int)(rand() % ((rand() % fConfig.gDivLimit) + 1)) + 1;
-			temp_bMlt[sets] = (double)(rand() % ((rand() % fConfig.bMltLimit) + 1)) + 1;
-			temp_bDiv[sets] = (int)(rand() % ((rand() % fConfig.bDivLimit) + 1)) + 1;
+			temp_rMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.rMltSeed)), dRandomNum((int)time(0) / fConfig.rMltSeed, fConfig.rMltSafty, fConfig.rMltLimit), (rand() % (int)fConfig.rMltLimit) + 1);
+			temp_rDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.rDivSeed)), iRandomNum((int)time(0) / fConfig.rDivSeed, fConfig.rDivSafty, fConfig.rDivLimit), (rand() % (int)fConfig.rDivLimit) + 1);
+			temp_gMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.gMltSeed)), dRandomNum((int)time(0) / fConfig.gMltSeed, fConfig.gMltSafty, fConfig.gMltLimit), (rand() % (int)fConfig.gMltLimit) + 1);
+			temp_gDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.gDivSeed)), iRandomNum((int)time(0) / fConfig.gDivSeed, fConfig.gDivSafty, fConfig.gDivLimit), (rand() % (int)fConfig.gDivLimit) + 1);
+			temp_bMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.bMltSeed)), dRandomNum((int)time(0) / fConfig.bMltSeed, fConfig.bMltSafty, fConfig.bMltLimit), (rand() % (int)fConfig.bMltLimit) + 1);
+			temp_bDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.bDivSeed)), iRandomNum((int)time(0) / fConfig.bDivSeed, fConfig.bDivSafty, fConfig.bDivLimit), (rand() % (int)fConfig.bDivLimit) + 1);
 		}
 
 		for (int td = 0; td < mConfig.ThreadCount; td++) {
@@ -228,9 +230,9 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 					break;
 				}
 
-				dRed[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI));
-				dGreen[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI));
-				dBlue[st] = frac.SaftyNet((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI));
+				dRed[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI));
+				dGreen[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI));
+				dBlue[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI));
 			}
 
 			Thread_RGB[id][y][x] = frac.getRGB(dRed,dGreen,dBlue,ID.str());

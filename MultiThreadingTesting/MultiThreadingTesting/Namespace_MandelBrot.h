@@ -1,4 +1,5 @@
-//std::ofstream MandelBrotLog("Namespace_MandelBrot.hLog.txt");//Most likly will never need this but is is here in case
+//std::ofstream MandelBrotLog("Namespace_MandelBrot.hLog.txt");
+//Most likly will never need this but is here in case
 
 namespace MandelBrot {
 	//						  0,   1,   2,   3,   4,   5,   6,   7,
