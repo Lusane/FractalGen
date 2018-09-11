@@ -9,7 +9,7 @@
 *.png
 *.jpeg
 *.jpg
-[Ss]ample_Zips/
+[Ss]ample_[Zz]ips/
 
 # User-specific files
 *.suo
