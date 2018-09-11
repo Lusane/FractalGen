@@ -115,9 +115,9 @@ void randomFracValues() {
 				frac._zr[td][st] += temp_zr[st];
 				frac._zi[td][st] += temp_zi[st];
 				frac.maxR[td][st] += temp_maxR[st];
-				frac.minR[td][st] += temp_minR[st];
+				frac.minR[td][st] -= temp_minR[st];
 				frac.maxI[td][st] += temp_maxI[st];
-				frac.minI[td][st] += temp_minI[st];
+				frac.minI[td][st] -= temp_minI[st];
 				frac.maxN[td][st] += temp_maxN[st];
 				frac.z[td][st] += temp_z[st];
 				frac.maxZ[td][st] += temp_maxZ[st];
@@ -350,14 +350,32 @@ void coutProgress() {
 void quit() {
 	char input;
 	
-	std::cout << "Do You want to generate a fractal or close the program?(f, c)" << std::endl;
+	std::cout << "To veiw the LICENSE.txt enter l, To veiw the README.md enter r." << std::endl << "Do You want to generate a fractal or close the program?(f, c)" << std::endl;
 	std::cin >> input;
 
-	if (input == 'f' || input == 'F') {
+	switch (input) {
+	case 'f':
+	case 'F':
 		ContinueRunning = true;
-	}
-	else if (input == 'c' || input == 'C') {
+		break;
+	case 'c':
+	case 'C':
 		ContinueRunning = false;
+		break;
+	case 'l':
+	case 'L':
+		system("START LICENSE.txt");
+		quit();
+		break;
+	case 'r':
+	case 'R':
+		system("START README.md");
+		quit();
+		break;
+	default:
+		std::cout << "Not possible, try again." << std::endl;
+		quit();
+		break;
 	}
 }
 
