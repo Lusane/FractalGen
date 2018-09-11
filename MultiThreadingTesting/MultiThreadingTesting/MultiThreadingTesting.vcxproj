@@ -139,6 +139,7 @@
     <ClInclude Include="NameSpace_TestSet.h" />
     <ClInclude Include="ThreadHandler.h" />
     <ClInclude Include="Util.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.gitattributes" />

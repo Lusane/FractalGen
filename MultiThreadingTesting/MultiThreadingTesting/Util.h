@@ -26,6 +26,7 @@
 #pragma comment(lib, "psapi.lib")
 //#include <stdlib.h>
 #include "ini.h"
+#include "Version.h"
 
 int ncpu = 1;
 

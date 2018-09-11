@@ -518,6 +518,7 @@ int main()
 {
 	std::cout << "ini.h/ini.c Copyright (c) 2009, Ben Hoyt" << std::endl << std::endl;
 	std::cout << "Copyright (C) 2018  Donovan McEnnerney" << std::endl << "This program comes with ABSOLUTELY NO WARRANTY!" << std::endl << "This is free software, and you are welcome to redistribute it under certain conditions, See LICENSE.txt for details." << std::endl << std::endl;
+	std::cout << "Current Version: " << Version << std::endl;
 	if ((ini_parse("Program.ini", mainHandler, &mConfig) < 0) || (ini_parse("Fractal.ini", fractalHandler, &fConfig) < 0) || (ini_parse("Sets.ini", fracSetHandler, &fSets) < 0)) {
 		return 1;
 	}
