@@ -42,33 +42,21 @@ typedef struct {
 	};
 
 	int fractalSaftyNet(int FracValue) {
-		int Limit = 999999999;
-		if (FracValue >= Limit) {
-			return Limit;
-		}
-		else if (FracValue == 0) {
+		if (FracValue == 0) {
 			return 1;
 		}
 		return FracValue;
 	}
 
 	float fractalSaftyNet(float FracValue) {
-		float Limit = 999999999.f;
-		if (FracValue >= Limit) {
-			return Limit;
-		}
-		else if (FracValue == 0) {
+		if (FracValue == 0) {
 			return 1;
 		}
 		return FracValue;
 	}
 
 	double fractalSaftyNet(double FracValue) {
-		double Limit = 999999999.9;
-		if (FracValue >= Limit) {
-			return Limit;
-		}
-		else if (FracValue == 0) {
+		if (FracValue == 0) {
 			return 1;
 		}
 		return FracValue;

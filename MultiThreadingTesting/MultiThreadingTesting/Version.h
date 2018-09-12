@@ -1,3 +1,3 @@
 #pragma once
 
-#define Version "0.5.1_beta_r24"
+#define Version "v0.5.1_beta_r25"

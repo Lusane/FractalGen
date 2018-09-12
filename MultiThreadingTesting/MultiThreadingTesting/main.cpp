@@ -98,16 +98,33 @@ void randomFracValues() {
 		temp_z.resize(fConfig.setCount);
 		temp_maxZ.resize(fConfig.setCount);
 
+		int zrSeed = frac.fractalSaftyNet(fConfig.zrSeed), ziSeed = frac.fractalSaftyNet(fConfig.ziSeed);
+		double zrSafty = fConfig.zrSafty, zrLimit = fConfig.zrLimit;
+		double ziSafty = fConfig.ziSafty, ziLimit = fConfig.ziLimit;
+
+		int maxRSeed = frac.fractalSaftyNet(fConfig.maxRSeed), minRSeed = frac.fractalSaftyNet(fConfig.minRSeed);
+		double maxRSafty = frac.fractalSaftyNet(fConfig.maxRSafty), maxRLimit = frac.fractalSaftyNet(fConfig.maxRLimit);
+		double minRSafty = frac.fractalSaftyNet(fConfig.minRSafty), minRLimit = frac.fractalSaftyNet(fConfig.minRLimit);
+
+		int maxISeed = frac.fractalSaftyNet(fConfig.maxISeed), minISeed = frac.fractalSaftyNet(fConfig.minISeed);
+		double maxISafty = frac.fractalSaftyNet(fConfig.maxISafty), maxILimit = frac.fractalSaftyNet(fConfig.maxILimit);
+		double minISafty = frac.fractalSaftyNet(fConfig.minISafty), minILimit = frac.fractalSaftyNet(fConfig.minILimit);
+
+		int maxNSeed = frac.fractalSaftyNet(fConfig.maxNSeed), zSeed = frac.fractalSaftyNet(fConfig.zSeed), maxZSeed = frac.fractalSaftyNet(fConfig.maxZSeed);
+		int maxNSafty = frac.fractalSaftyNet(fConfig.maxNSafty), maxNLimit = frac.fractalSaftyNet(fConfig.maxNLimit);
+		float zSafty = frac.fractalSaftyNet(fConfig.zSafty), zLimit = frac.fractalSaftyNet(fConfig.zLimit);
+		float maxZSafty = frac.fractalSaftyNet(fConfig.maxZSafty), maxZLimit = frac.fractalSaftyNet(fConfig.maxZLimit);
+
 		for (int set = 0; set < fConfig.setCount; set++) {
-			temp_zr[set] = dRandomNum((rand() % (int)(time(0) / fConfig.zrSeed)), dRandomNum((int)time(0) / fConfig.zrSeed, fConfig.zrSafty, fConfig.zrLimit), double(rand() % (int)fConfig.zrLimit) + 1) * fConfig.zrSafty;
-			temp_zi[set] = dRandomNum((rand() % (int)(time(0) / fConfig.ziSeed)), dRandomNum((int)time(0) / fConfig.ziSeed, fConfig.ziSafty, fConfig.ziLimit), double(rand() % (int)fConfig.ziLimit) + 1) * fConfig.ziSafty;
-			temp_maxR[set] = dRandomNum((rand() % (int)(time(0) / fConfig.maxRSeed)), dRandomNum((int)time(0) / fConfig.maxRSeed, fConfig.maxRSafty, fConfig.maxRLimit), double(rand() % (int)fConfig.maxRLimit) + 1) / fConfig.maxRSafty;
-			temp_minR[set] = dRandomNum((rand() % (int)(time(0) / fConfig.minRSeed)), dRandomNum((int)time(0) / fConfig.minRSeed, fConfig.minRSafty, fConfig.minRLimit), double(rand() % (int)fConfig.minRLimit) + 1) / fConfig.minRSafty;
-			temp_maxI[set] = dRandomNum((rand() % (int)(time(0) / fConfig.maxISeed)), dRandomNum((int)time(0) / fConfig.maxISeed, fConfig.maxISafty, fConfig.maxILimit), double(rand() % (int)fConfig.maxILimit) + 1) / fConfig.maxISafty;
-			temp_minI[set] = dRandomNum((rand() % (int)(time(0) / fConfig.minISeed)), dRandomNum((int)time(0) / fConfig.minISeed, fConfig.minISafty, fConfig.minILimit), double(rand() % (int)fConfig.minILimit) + 1) / fConfig.minISafty;
-			temp_maxN[set] = iRandomNum((rand() % (int)(time(0) / fConfig.maxNSeed)), iRandomNum((int)time(0) / fConfig.maxNSeed, fConfig.maxNSafty, fConfig.maxNLimit), (rand() % fConfig.maxNLimit) + 1) / fConfig.maxNSafty;
-			temp_z[set] = fRandomNum((rand() % (int)(time(0) / fConfig.zSeed)), fRandomNum((int)time(0) / fConfig.zSeed, fConfig.zSafty, fConfig.zLimit), float(rand() % (int)fConfig.zLimit) + 1) / fConfig.zSafty;
-			temp_maxZ[set] = fRandomNum((rand() % (int)(time(0) / fConfig.maxZSeed)), fRandomNum((int)time(0) / fConfig.maxZSeed, fConfig.maxZSafty, fConfig.maxZLimit), float(rand() % (int)fConfig.maxZLimit) + 1) / fConfig.maxZSafty;
+			temp_zr[set] = dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / zrSeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / zrSeed), zrSafty, zrLimit), double(rand() % (int)zrLimit) + 1) * zrSafty;
+			temp_zi[set] = dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / ziSeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / ziSeed), ziSafty, ziLimit), double(rand() % (int)ziLimit) + 1) * ziSafty;
+			temp_maxR[set] = frac.fractalSaftyNet(dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / maxRSeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / maxRSeed), maxRSafty, maxRLimit), double(rand() % (int)maxRLimit) + 1) / maxRSafty);
+			temp_minR[set] = frac.fractalSaftyNet(dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / minRSeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / minRSeed), minRSafty, minRLimit), double(rand() % (int)minRLimit) + 1) / minRSafty);
+			temp_maxI[set] = frac.fractalSaftyNet(dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / maxISeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / maxISeed), maxISafty, maxILimit), double(rand() % (int)maxILimit) + 1) / maxISafty);
+			temp_minI[set] = frac.fractalSaftyNet(dRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / minISeed)) + 1), dRandomNum(frac.fractalSaftyNet((int)time(0) / minISeed), minISafty, minILimit), double(rand() % (int)minILimit) + 1) / minISafty);
+			temp_maxN[set] = frac.fractalSaftyNet(iRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / maxNSeed)) + 1), iRandomNum(frac.fractalSaftyNet((int)time(0) / maxNSeed), maxNSafty, maxNLimit), (rand() % maxNLimit) + 1) / maxNSafty);
+			temp_z[set] = frac.fractalSaftyNet(fRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / zSeed)) + 1), fRandomNum(frac.fractalSaftyNet((int)time(0) / zSeed), zSafty, zLimit), float(rand() % (int)zLimit) + 1) / zSafty);
+			temp_maxZ[set] = frac.fractalSaftyNet(fRandomNum((rand() % frac.fractalSaftyNet((int)(time(0) / maxZSeed)) + 1), fRandomNum(frac.fractalSaftyNet((int)time(0) / maxZSeed), maxZSafty, maxZLimit), float(rand() % (int)maxZLimit) + 1) / maxZSafty);
 		}
 
 		for (int td = 0; td < mConfig.ThreadCount; td++) {
