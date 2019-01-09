@@ -1,6 +1,6 @@
 MacOS [
     Version: v0.0.1,
-    Expected Release Date: 12/15/18, --Subject to change
+    Expected Release Date: 12/15/20, --Subject to change
     Planned Fixes: (
         Finish adding MacOS memory & CPU handling,
         Start adding more program error handling for MacOS
@@ -9,7 +9,7 @@ MacOS [
 
 Linux [
     Version: v0.0.1,
-    Expected Release date: 11/2/18, --Subject to change
+    Expected Release date: 11/2/19, --Subject to change
     Planned Fixes: (
         Finish adding Linux memory & CPU handling,
         Start adding more program error handling for Linux
@@ -18,7 +18,7 @@ Linux [
 
 Windows [
     Version: v0.5.2_beta,
-    Expected release date: 10/5/18, --Subject to change
+    Expected release date: 3/5/19, --Subject to change
     Planned Fixes: (
         Add Random Fractal Values,
 	Add More Fractal Sets
