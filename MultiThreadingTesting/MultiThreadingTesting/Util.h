@@ -21,6 +21,9 @@
 #include <stdio.h>
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")
+#include "jpeg-9c/jpeglib.h"
+#include "jpeg-9c/jerror.h"
+#include <setjmp.h>
 //#include <stdlib.h>
 #include "ini.h"
 #include "Version.h"

@@ -284,8 +284,11 @@ void AssemableImage()
 	std::string imageName = Name.str() + FileExt.str();
 	std::cout << "Making " + FileExt.str() << std::endl;
 	std::ofstream Image(imageName);
-	Image << "P3" << std::endl;
-	Image << frac.width << " " << frac.height << std::endl;
+	if (FileExt.str() == ".ppm" || FileExt.str() == ".pnm" || FileExt.str() == ".pgm" || FileExt.str() == ".pbm")
+	{
+		Image << "P3" << std::endl;
+		Image << frac.width << " " << frac.height << std::endl;
+	}
 	float PerY1;
 	float PerY2;
 	float PerX1;

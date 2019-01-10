@@ -25,6 +25,9 @@
     <Filter Include="Header Files\Set Headers">
       <UniqueIdentifier>{fe3cdcfb-25a1-4259-8d8a-6410c8444376}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\JpegHeaders">
+      <UniqueIdentifier>{1ca02f9d-6efd-4bd5-bfec-afd6322f576f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,6 +82,42 @@
     </ClInclude>
     <ClInclude Include="Version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\cderror.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\cdjpeg.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jdct.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jerror.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jinclude.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jmemsys.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jmorecfg.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jpegint.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jpeglib.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\jversion.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="jpeg-9c\transupp.h">
+      <Filter>Header Files\JpegHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="JConfig.h">
+      <Filter>Header Files\JpegHeaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

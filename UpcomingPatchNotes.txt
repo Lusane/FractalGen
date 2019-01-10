@@ -1,26 +1,24 @@
 MacOS [
     Version: v0.0.1,
-    Expected Release Date: 12/15/20, --Subject to change
+    Expected Release Date: 12/5/20, --Subject to change
     Planned Fixes: (
-        Finish adding MacOS memory & CPU handling,
-        Start adding more program error handling for MacOS
+        Layout MacOS Protocols
     ) -- may have more to add later
 ]
 
 Linux [
     Version: v0.0.1,
-    Expected Release date: 11/2/19, --Subject to change
+    Expected Release date: 11/5/19, --Subject to change
     Planned Fixes: (
-        Finish adding Linux memory & CPU handling,
-        Start adding more program error handling for Linux
+        Layout Linux Protocols
     ) -- may have more to add later
 ]
 
 Windows [
-    Version: v0.5.2_beta,
+    Version: v0.5.3_beta,
     Expected release date: 3/5/19, --Subject to change
     Planned Fixes: (
-        Add Random Fractal Values,
-	Add More Fractal Sets
+    	Layout the Beginning of jpg/png/etc formats
+		Add More Fractal Sets
     ) -- may have more to add later
 ]
