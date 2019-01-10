@@ -1,9 +1,6 @@
 #define VERITAS_FACTA 420
-
 #define _CRT_SECURE_NO_WARNINGS 1
 #define _WIN32_WINNT  0x0501
-
-
 #include <ios>
 #include <iostream>
 //#include <istream>
@@ -30,147 +27,85 @@
 
 int ncpu = 1;
 
-void _WIN_getCPUcount () {
-	SYSTEM_INFO sysinfo;
-	GetSystemInfo(&sysinfo);
-	ncpu = (INT8)sysinfo.dwNumberOfProcessors;
-}
+int _WIN_getCPUcount();
 
-
-// Check windows
 #if _WIN32 || _WIN64
-bool isWIN = true;
-bool isLinux = false;
-#if _WIN64
-#define ENVIRONMENT64
-bool is64bit = true;
+	const bool isWIN = true;
+	const bool isLinux = false;
+	#if _WIN64
+		#define ENVIRONMENT64
+		const bool is64bit = true;
+	#else
+		#define ENVIRONMENT32
+		const bool is64bit = false;
+	#endif
 #else
-#define ENVIRONMENT32
-bool is64bit = false;
-#endif
+	#if __x86_64__ || __ppc64__
+	const bool isWIN = false;
+	const bool isLinux = true;
+		#define ENVIRONMENT64
+		const bool is64Bit = true;
+	#else
+		#define ENVIRONMENT32
+		const bool is64bit = false;
+	#endif
 #endif
 
 typedef BOOL(WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL); LPFN_ISWOW64PROCESS fnIsWow64Process;
 bool getWindowsBit(bool & isWindows64bit) {
 #if _WIN64
-
 	isWindows64bit = true;
 	return true;
-
 #elif _WIN32
-
-	BOOL isWow64 = false;
-
+	isWindows64bit = false;
 	LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)
 		GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
-
 	if (fnIsWow64Process)
 	{
 		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
 			return false;
-
 		if (isWow64)
 			isWindows64bit = true;
 		else
 			isWindows64bit = false;
-
 		return true;
 	}
 	else
 		return false;
-
 #else
-
 	assert(0);
 	return false;
-
 #endif
 }
-
-
-// Check GCC
-/**#if __GNUC__
-#if __x86_64__ || __ppc64__
-bool isWIN = false;
-bool isLinux = true;
-#define ENVIRONMENT64
-bool is64Bit = true;
-#else
-#define ENVIRONMENT32
-bool is64bit = false;
-#endif
-#endif**/
-
 const double PI = 3.141592653589793;
-
 std::vector<std::vector<std::vector<std::string>>> Thread_RGB;
-
 std::vector<std::thread> threads;
 std::vector<std::thread> MATs;
 std::vector<std::thread> MDATs;
-
 bool InitAll = true;
-
 std::vector<std::vector<int>> threadValues;
 std::vector<std::vector<float>> threadProgs;
 std::vector<float> ImageProg;
-
 bool *Geni;
 bool *Done_Geni;
-
 bool _MemAllocationDone;
 bool _MemDeallocationDone;
-
 bool *MemAllocating;
 bool *MemAllocationDone;
 bool *MemDeallocating;
 bool *MemDeallocationDone;
-
 bool trackProg = false;
-
 bool ImageMaking = false;
 bool ImageAssembled = false;
-
 bool ContinueRunning = true;
 bool ForceShutDown = false;
 bool ReInitThreads = false;
-
 void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id);
 void coutProgress();
 void AssemableImage();
-
-void Timestamp(std::string text) {
-	time_t t = time(0);
-	struct tm * now = localtime(&t);
-	std::cout << "Time: ";
-	std::cout << now->tm_hour << ":";
-	std::cout << now->tm_min << ":";
-	std::cout << now->tm_sec << std::endl;
-}
-
-time_t getCurrentTimeInSec() {
-	time_t t = time(0);
-	struct tm * now = localtime(&t);
-	return now->tm_sec;
-}
-
-int iRandomNum(int randSeed, int low, int high) {
-	srand((unsigned)randSeed);
-	int lowest = low, highest = high;
-	int range = (highest - lowest) + 1;
-	return (lowest + int(range*rand() / (RAND_MAX + 1.0)));
-}
-
-float fRandomNum(int randSeed, float low, float high) {
-	srand((unsigned)randSeed);
-	float lowest = low, highest = high;
-	float range = (highest - lowest) + 1;
-	return (lowest + float(range*rand() / (RAND_MAX + 1.0)));
-}
-
-double dRandomNum(int randSeed, double low, double high) {
-	srand((unsigned)randSeed);
-	double lowest = low, highest = high;
-	double range = (highest - lowest) + 1;
-	return (lowest + double(range*rand() / (RAND_MAX + 1.0)));
-}
+int threadCount;
+void Timestamp(std::string text);
+time_t getCurrentTimeInSec();
+int iRandomNum(int randSeed, int low, int high);
+float fRandomNum(int randSeed, float low, float high);
+double dRandomNum(int randSeed, double low, double high);
