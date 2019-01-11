@@ -1,5 +1,7 @@
 #define VERITAS_FACTA 420
+#ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS 1
+#endif
 #define _WIN32_WINNT  0x0501
 #include <ios>
 #include <iostream>
@@ -21,17 +23,11 @@
 #include <stdio.h>
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")
-#include "jpeg-9c/jpeglib.h"
-#include "jpeg-9c/jerror.h"
-#include <setjmp.h>
 //#include <stdlib.h>
 #include "ini.h"
 #include "Version.h"
-
 int ncpu = 1;
-
 int _WIN_getCPUcount();
-
 #if _WIN32 || _WIN64
 	const bool isWIN = true;
 	const bool isLinux = false;
@@ -53,7 +49,6 @@ int _WIN_getCPUcount();
 		const bool is64bit = false;
 	#endif
 #endif
-
 typedef BOOL(WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL); LPFN_ISWOW64PROCESS fnIsWow64Process;
 bool getWindowsBit(bool & isWindows64bit) {
 #if _WIN64

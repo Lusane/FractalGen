@@ -152,7 +152,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Y:\FractalGeneration\MultiThreadingTesting\LibPng;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>Y:\FractalGeneration\MultiThreadingTesting\LibPng;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
+    <Link>
+      <LargeAddressAware>true</LargeAddressAware>
+      <AdditionalLibraryDirectories>Y:\FractalGeneration\MultiThreadingTesting\LibPng;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LibPng.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Linux_Debug|x64'">
     <ClCompile>
@@ -232,18 +239,6 @@
     <ClInclude Include="ini.h" />
     <ClInclude Include="Fractal.h" />
     <ClInclude Include="INIReader.h" />
-    <ClInclude Include="JConfig.h" />
-    <ClInclude Include="jpeg-9c\cderror.h" />
-    <ClInclude Include="jpeg-9c\cdjpeg.h" />
-    <ClInclude Include="jpeg-9c\jdct.h" />
-    <ClInclude Include="jpeg-9c\jerror.h" />
-    <ClInclude Include="jpeg-9c\jinclude.h" />
-    <ClInclude Include="jpeg-9c\jmemsys.h" />
-    <ClInclude Include="jpeg-9c\jmorecfg.h" />
-    <ClInclude Include="jpeg-9c\jpegint.h" />
-    <ClInclude Include="jpeg-9c\jpeglib.h" />
-    <ClInclude Include="jpeg-9c\jversion.h" />
-    <ClInclude Include="jpeg-9c\transupp.h" />
     <ClInclude Include="MemAllocation.h" />
     <ClInclude Include="MemDeallocation.h" />
     <ClInclude Include="Namespace_CastleSet.h" />
