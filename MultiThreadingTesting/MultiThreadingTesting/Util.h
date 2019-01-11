@@ -23,9 +23,10 @@
 #include <stdio.h>
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")
-//#include <stdlib.h>
+#include <stdlib.h>
 #include "ini.h"
 #include "Version.h"
+PBOOL isWow64;
 int ncpu = 1;
 int _WIN_getCPUcount();
 #if _WIN32 || _WIN64
@@ -60,7 +61,7 @@ bool getWindowsBit(bool & isWindows64bit) {
 		GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
 	if (fnIsWow64Process)
 	{
-		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
+		if (!fnIsWow64Process(GetCurrentProcess(), isWow64))
 			return false;
 		if (isWow64)
 			isWindows64bit = true;
