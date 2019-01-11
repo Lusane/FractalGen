@@ -24,9 +24,15 @@
 #include <psapi.h>
 #pragma comment(lib, "psapi.lib")
 #include <stdlib.h>
+#include <setjmp.h>
+#include "png.h"
+#ifdef PNG_ZLIB_HEADER
+#include PNG_ZLIB_HEADER
+#else
+#include "zlib.h"
+#endif
 #include "ini.h"
 #include "Version.h"
-PBOOL isWow64;
 int ncpu = 1;
 int _WIN_getCPUcount();
 #if _WIN32 || _WIN64
@@ -51,6 +57,7 @@ int _WIN_getCPUcount();
 	#endif
 #endif
 typedef BOOL(WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL); LPFN_ISWOW64PROCESS fnIsWow64Process;
+BOOL isWow64;
 bool getWindowsBit(bool & isWindows64bit) {
 #if _WIN64
 	isWindows64bit = true;
@@ -61,7 +68,7 @@ bool getWindowsBit(bool & isWindows64bit) {
 		GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
 	if (fnIsWow64Process)
 	{
-		if (!fnIsWow64Process(GetCurrentProcess(), isWow64))
+		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
 			return false;
 		if (isWow64)
 			isWindows64bit = true;

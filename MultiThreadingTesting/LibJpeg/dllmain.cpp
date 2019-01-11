@@ -4,7 +4,6 @@
 #include <windows.h>
 #include <stdio.h>
 #include "jpeg-9c/jpeglib.h"
-#include <setjmp.h>
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

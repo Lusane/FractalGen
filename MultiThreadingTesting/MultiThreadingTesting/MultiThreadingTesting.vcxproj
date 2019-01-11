@@ -130,6 +130,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>Y:\FractalGeneration\MultiThreadingTesting\LibPng\lpng1636;Y:\FractalGeneration\MultiThreadingTesting\MultiThreadingTesting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <LargeAddressAware>true</LargeAddressAware>

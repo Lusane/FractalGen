@@ -284,7 +284,7 @@ void AssemableImage()
 	std::string imageName = Name.str() + FileExt.str();
 	std::cout << "Making " + FileExt.str() << std::endl;
 	std::ofstream Image(imageName);
-	if (FileExt.str() == ".ppm" || FileExt.str() == ".pnm" || FileExt.str() == ".pgm" || FileExt.str() == ".pbm")
+	if (FileExt.str() == ".ppm" || FileExt.str() == ".pnm" || FileExt.str() == ".pgm" || FileExt.str() == ".pbm") // TODO BEGIN IMPLAMENTATION OF LIBPNG
 	{
 		Image << "P3" << std::endl;
 		Image << frac.width << " " << frac.height << std::endl;
