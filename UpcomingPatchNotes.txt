@@ -18,7 +18,8 @@ Windows [
     Version: v0.5.3_beta,
     Expected release date: 3/5/19, --Subject to change
     Planned Fixes: (
-    	Layout the Beginning of jpg/png/etc formats
+    	Layout the Beginning of jpg/png/etc formats,
+        Convert norm colors to bit color,
 		Add More Fractal Sets
     ) -- may have more to add later
 ]

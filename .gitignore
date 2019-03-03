@@ -270,3 +270,4 @@ paket-files/
 __pycache__/
 *.pyc
 MultiThreadingTesting/MultiThreadingTesting/randomFracLog.txt
+MultiThreadingTesting/MultiThreadingTesting/RTA_Thread_RGB_Log.txt

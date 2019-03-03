@@ -9,7 +9,7 @@ int _WIN_getCPUcount()
 }
 void checkForDefaultsUse() 
 {
-	if (fConfig.useDefaults || fConfig.useSetDeaults) 
+	if (fConfig.useDefaults || fConfig.useSetDefaults) 
 	{
 		int Sets[8] = 
 		{
@@ -164,23 +164,23 @@ void randomColors()
 		temp_bDiv.resize(fConfig.setCount);
 		for (int sets = 0; sets < fConfig.setCount; sets++) 
 		{
-			temp_rMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.rMltSeed)), dRandomNum((int)time(0) / fConfig.rMltSeed, fConfig.rMltSafty, fConfig.rMltLimit), (rand() % (int)fConfig.rMltLimit) + 1);
-			temp_rDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.rDivSeed)), iRandomNum((int)time(0) / fConfig.rDivSeed, fConfig.rDivSafty, fConfig.rDivLimit), (rand() % (int)fConfig.rDivLimit) + 1);
-			temp_gMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.gMltSeed)), dRandomNum((int)time(0) / fConfig.gMltSeed, fConfig.gMltSafty, fConfig.gMltLimit), (rand() % (int)fConfig.gMltLimit) + 1);
-			temp_gDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.gDivSeed)), iRandomNum((int)time(0) / fConfig.gDivSeed, fConfig.gDivSafty, fConfig.gDivLimit), (rand() % (int)fConfig.gDivLimit) + 1);
-			temp_bMlt[sets] = dRandomNum((rand() % (int)(time(0) / fConfig.bMltSeed)), dRandomNum((int)time(0) / fConfig.bMltSeed, fConfig.bMltSafty, fConfig.bMltLimit), (rand() % (int)fConfig.bMltLimit) + 1);
-			temp_bDiv[sets] = iRandomNum((rand() % (int)(time(0) / fConfig.bDivSeed)), iRandomNum((int)time(0) / fConfig.bDivSeed, fConfig.bDivSafty, fConfig.bDivLimit), (rand() % (int)fConfig.bDivLimit) + 1);
+			temp_rMlt[sets] = frac.ColorSaftyNet(dRandomNum((rand() % (int)(time(0) / fConfig.rMltSeed)), dRandomNum((int)time(0) / fConfig.rMltSeed, fConfig.rMltSafty, fConfig.rMltLimit), (rand() % (int)fConfig.rMltLimit) + 1));
+			temp_rDiv[sets] = frac.ColorSaftyNet(iRandomNum((rand() % (int)(time(0) / fConfig.rDivSeed)), iRandomNum((int)time(0) / fConfig.rDivSeed, fConfig.rDivSafty, fConfig.rDivLimit), (rand() % (int)fConfig.rDivLimit) + 1));
+			temp_gMlt[sets] = frac.ColorSaftyNet(dRandomNum((rand() % (int)(time(0) / fConfig.gMltSeed)), dRandomNum((int)time(0) / fConfig.gMltSeed, fConfig.gMltSafty, fConfig.gMltLimit), (rand() % (int)fConfig.gMltLimit) + 1));
+			temp_gDiv[sets] = frac.ColorSaftyNet(iRandomNum((rand() % (int)(time(0) / fConfig.gDivSeed)), iRandomNum((int)time(0) / fConfig.gDivSeed, fConfig.gDivSafty, fConfig.gDivLimit), (rand() % (int)fConfig.gDivLimit) + 1));
+			temp_bMlt[sets] = frac.ColorSaftyNet(dRandomNum((rand() % (int)(time(0) / fConfig.bMltSeed)), dRandomNum((int)time(0) / fConfig.bMltSeed, fConfig.bMltSafty, fConfig.bMltLimit), (rand() % (int)fConfig.bMltLimit) + 1));
+			temp_bDiv[sets] = frac.ColorSaftyNet(iRandomNum((rand() % (int)(time(0) / fConfig.bDivSeed)), iRandomNum((int)time(0) / fConfig.bDivSeed, fConfig.bDivSafty, fConfig.bDivLimit), (rand() % (int)fConfig.bDivLimit) + 1));
 		}
 		for (int td = 0; td < threadCount; td++) 
 		{
 			for (int st = 0; st < fConfig.setCount; st++) 
 			{
-				frac.rMlt[td][st] = temp_rMlt[st];
-				frac.rDiv[td][st] = temp_rDiv[st];
-				frac.gMlt[td][st] = temp_gMlt[st];
-				frac.gDiv[td][st] = temp_gDiv[st];
-				frac.bMlt[td][st] = temp_bMlt[st];
-				frac.bDiv[td][st] = temp_bDiv[st];
+				frac.rMlt[td][st] = frac.ColorSaftyNet(temp_rMlt[st]);
+				frac.rDiv[td][st] = frac.ColorSaftyNet(temp_rDiv[st]);
+				frac.gMlt[td][st] = frac.ColorSaftyNet(temp_gMlt[st]);
+				frac.gDiv[td][st] = frac.ColorSaftyNet(temp_gDiv[st]);
+				frac.bMlt[td][st] = frac.ColorSaftyNet(temp_bMlt[st]);
+				frac.bDiv[td][st] = frac.ColorSaftyNet(temp_bDiv[st]);
 			}
 		}
 		temp_rMlt.resize(0);
@@ -195,6 +195,8 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 {
 	std::stringstream ID;
 	ID << id;
+	///std::ofstream devLog;
+	///devLog.open("Thread_"+ID.str()+".txt");
 	Geni[id] = true;
 	int Set[8] = { fConfig.set1, fConfig.set2, fConfig.set3, fConfig.set4, fConfig.set5, fConfig.set6, fConfig.set7, fConfig.set8 };
 	Sleep(10);
@@ -206,18 +208,19 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 	float PerY2;
 	float PerX1;
 	float PerX2;
-	double* cr;
-	double* ci;
-	cr = new double[fConfig.setCount];
-	ci = new double[fConfig.setCount];
-	int* n;
-	n = new int[fConfig.setCount];
-	double* dRed;
-	double* dGreen;
-	double* dBlue;
-	dRed = new double[fConfig.setCount];
-	dGreen = new double[fConfig.setCount];
-	dBlue = new double[fConfig.setCount];
+	std::vector<double> cr;
+	std::vector<double> ci;
+	std::vector<int> n;
+	std::vector<double> dRed;
+	std::vector<double> dGreen;
+	std::vector<double> dBlue;
+	cr.resize(fConfig.setCount);
+	ci.resize(fConfig.setCount);
+	n.resize(fConfig.setCount);
+	dRed.resize(fConfig.setCount);
+	dGreen.resize(fConfig.setCount);
+	dBlue.resize(fConfig.setCount);
+
 	for (y = 0; y < (int)(ceil(frac.height / threadCount) + 1); y++)
 	{
 		if (_y >= FinalY)
@@ -247,11 +250,28 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 				case 4: n[st] = StarBurst::starBurst(frac._zr[id][st], cr[st], frac._zi[id][st], ci[st], frac.maxN[id][st], frac.z[id][st], frac.maxZ[id][st]);
 					break;
 				}
-				dRed[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI));
-				dGreen[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI));
-				dBlue[st] = frac.ColorSaftyNet((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI));
+
+				dRed[st] = frac.ColorSaftyNet(((double)(((int)((double)n[st] * frac.rMlt[id][st]) % frac.rDiv[id][st]) + (int)PI)));
+				dGreen[st] = frac.ColorSaftyNet(((double)(((int)((double)n[st] * frac.gMlt[id][st]) % frac.gDiv[id][st]) + (int)PI)));
+				dBlue[st] = frac.ColorSaftyNet(((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI)));
+
+				if (fConfig.FaverRed) {
+					dRed[st] = frac.ColorSaftyNet(dRed[st] * n[st]);
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / n[st]);
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / n[st]);
+				}
+				else if (fConfig.FaverGreen) {
+					dRed[st] = frac.ColorSaftyNet(dRed[st] / n[st]);
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] * n[st]);
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / n[st]);
+				}
+				else if (fConfig.FaverBlue) {
+					dRed[st] = frac.ColorSaftyNet(dRed[st] / n[st]);
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / n[st]);
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] * n[st]);
+				}
 			}
-			Thread_RGB[id][y][x] = frac.getRGB(dRed,dGreen,dBlue,ID.str());
+			Thread_RGB[id][y][x] = frac.getRGB(dRed, dGreen, dBlue, ID.str());
 			if (x != 0 && y != 0)
 			{
 				PerX1 = (float)((x + 1)) / (float)(frac.width + 1);
@@ -270,6 +290,7 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 	}
 	Geni[id] = false;
 	Done_Geni[id] = true;
+	///devLog.close();
 	Sleep(10);
 	std::this_thread::yield();
 }
@@ -281,13 +302,26 @@ void AssemableImage()
 	Name << mConfig.name;
 	std::stringstream FileExt;
 	FileExt << mConfig.fileExtension;
-	std::string imageName = Name.str() + FileExt.str();
+	std::stringstream Width;
+	Width << mConfig.width;
+	std::stringstream Height;
+	Height << mConfig.height;
+	std::stringstream BitDepth;
+	BitDepth << 8*fConfig.colorBitMulti;
+	std::string imageName;
+	if (mConfig.addImageDetailsToName) {
+		imageName = Name.str() + "_" + Width.str() + "x" + Height.str() + "_Depth_" + BitDepth.str() + FileExt.str();
+	}
+	else {
+		imageName = Name.str() + FileExt.str();
+	}
 	std::cout << "Making " + FileExt.str() << std::endl;
 	std::ofstream Image(imageName);
 	if (FileExt.str() == ".ppm" || FileExt.str() == ".pnm" || FileExt.str() == ".pgm" || FileExt.str() == ".pbm") // TODO BEGIN IMPLAMENTATION OF LIBPNG
 	{
 		Image << "P3" << std::endl;
 		Image << frac.width << " " << frac.height << std::endl;
+		Image << (255 * fConfig.colorBitMulti) << std::endl;
 	}
 	float PerY1;
 	float PerY2;
@@ -353,6 +387,12 @@ void quit()
 	case 'f':
 	case 'F':
 		ContinueRunning = true;
+		isTest = false;
+		break;
+	case 't':
+	case 'T':
+		ContinueRunning = true;
+		isTest = true;
 		break;
 	case 'c':
 	case 'C':

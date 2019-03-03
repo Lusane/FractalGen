@@ -7,6 +7,7 @@ typedef struct
 	int ThreadCount;
 	bool CoutProgress;
 	bool skipPauses;
+	bool addImageDetailsToName;
 	///For File
 	char* name;
 	int width;
@@ -28,6 +29,10 @@ static int mainHandler(void* user, const char* section, const char* name, const 
 	else if (MATCH("Protocol", "skipPauses")) 
 	{
 		pconfig->skipPauses = atoi(value);
+	}
+	else if (MATCH("Protocol", "addImageDetailsToName")) 
+	{
+		pconfig->addImageDetailsToName = atoi(value);
 	}
 	else if (MATCH("File", "name")) 
 	{
@@ -57,12 +62,16 @@ typedef struct
 	///For Main Section
 	int setCount;
 	bool useDefaults;
-	bool useSetDeaults;
+	bool useSetDefaults;
+	int colorBitMulti;
 	bool randomFractalValues;
 	bool randomColorValues;
 	bool Inverted;
 	bool Intensify;
 	float Intensity;
+	bool FaverRed;
+	bool FaverGreen;
+	bool FaverBlue;
 	///For RFC Section
 	double zrSafty;
 	double zrLimit;
@@ -135,7 +144,10 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	}
 	else if (MATCH("Main", "useSetDefaults")) 
 	{
-		fconfig->useSetDeaults = atoi(value);
+		fconfig->useSetDefaults = atoi(value);
+	}
+	else if (MATCH("Main", "colorBitMulti")) {
+		fconfig->colorBitMulti = atoi(value);
 	}
 	else if (MATCH("Main","randomFractalValue")) 
 	{
@@ -156,6 +168,18 @@ static int fractalHandler(void* user, const char* section, const char* name, con
 	else if (MATCH("Main", "Intensity")) 
 	{
 		fconfig->Intensity = (float)atof(value);
+	}
+	else if (MATCH("Main", "FaverRed"))
+	{
+		fconfig->FaverRed = atoi(value);
+	}
+	else if (MATCH("Main", "FaverGreen"))
+	{
+		fconfig->FaverGreen = atoi(value);
+	}
+	else if (MATCH("Main", "FaverBlue"))
+	{
+		fconfig->FaverBlue = atoi(value);
 	}
 	///RFC
 	else if (MATCH("RFC", "zrSafty")) 

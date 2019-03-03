@@ -5,6 +5,8 @@ void RTA_Init()
 {
 	MemAllocating[1] = true;
 	Sleep(10);
+	///std::ofstream templog;
+	///templog.open("RTA_Thread_RGB_Log.txt");
 	Thread_RGB.resize(threadCount);
 	for (int td = 0; td < threadCount; ++td)
 	{

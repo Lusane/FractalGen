@@ -25,12 +25,12 @@
 #pragma comment(lib, "psapi.lib")
 #include <stdlib.h>
 #include <setjmp.h>
-#include "png.h"
-#ifdef PNG_ZLIB_HEADER
-#include PNG_ZLIB_HEADER
-#else
-#include "zlib.h"
-#endif
+///#include "png.h"
+///#ifdef PNG_ZLIB_HEADER
+///#include PNG_ZLIB_HEADER
+///#else
+///#include "zlib.h"
+///#endif
 #include "ini.h"
 #include "Version.h"
 int ncpu = 1;
@@ -85,6 +85,8 @@ bool getWindowsBit(bool & isWindows64bit) {
 }
 const double PI = 3.141592653589793;
 std::vector<std::vector<std::vector<std::string>>> Thread_RGB;
+std::vector<std::vector<std::vector<std::vector<std::string>>>> Test_RGB;
+bool isTest = false;
 std::vector<std::thread> threads;
 std::vector<std::thread> MATs;
 std::vector<std::thread> MDATs;

@@ -1,6 +1,6 @@
 Windows [
     Version: v0.6_beta,
-    Expected release date: 1/1/19, --Subject to change
+    Expected release date: 6/2/19, --Subject to change
     Planned Fixes: (
         Make it use GPU cuda cores instead of CPU Logical Cores for the Generation
     ) -- may have more to add later
