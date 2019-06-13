@@ -5,24 +5,16 @@
 #define _WIN32_WINNT  0x0501
 #include <ios>
 #include <iostream>
-//#include <istream>
-//#include <ostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <thread>
-//#include <atomic>
+#include <atomic>
 #include <vector>
 #include <time.h>
 #include <ratio>
 #include <chrono>
-//#include <WinBase.h>
-//#include <malloc.h>
-//#include <tchar.h>
-#include <windows.h>
-#include <stdio.h>
-#include <psapi.h>
-#pragma comment(lib, "psapi.lib")
+//#include <stdio.h>
 #include <stdlib.h>
 #include <setjmp.h>
 ///#include "png.h"
@@ -31,58 +23,103 @@
 ///#else
 ///#include "zlib.h"
 ///#endif
-#include "ini.h"
+//#include "ini.h"
 #include "Version.h"
 int ncpu = 1;
-int _WIN_getCPUcount();
 #if _WIN32 || _WIN64
+	#define isWindows 1
+	#define isLinux 0
+	#include <windows.h>
+	#include <psapi.h>
+	#pragma comment(lib, "psapi.lib")
+	void slp(int t) {
+		Sleep(t);
+	};
 	const bool isWIN = true;
-	const bool isLinux = false;
-	#if _WIN64
+	const bool isUNIX = false;
+	#if __WIN64
 		#define ENVIRONMENT64
 		const bool is64bit = true;
 	#else
 		#define ENVIRONMENT32
 		const bool is64bit = false;
 	#endif
+	typedef BOOL(WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL); LPFN_ISWOW64PROCESS fnIsWow64Process;
+	BOOL isWow64;
+	int _WIN_getCPUcount() 
+	{
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo(&sysinfo);
+		return (INT8)sysinfo.dwNumberOfProcessors;
+	}
 #else
-	#if __x86_64__ || __ppc64__
-	const bool isWIN = false;
-	const bool isLinux = true;
-		#define ENVIRONMENT64
-		const bool is64Bit = true;
-	#else
-		#define ENVIRONMENT32
-		const bool is64bit = false;
+	#if __linux__
+		#define isLinux 1
+		#define isWindows 0
+		#include <cassert>
+		#include <cstring>
+		#include <cmath>
+		#include <unistd.h>
+		void slp(int t) {
+			usleep(t);
+		};
+		const bool isWIN = false;
+		const bool isUNIX = true;
+		#if __LP64__
+			#define ENVIRONMENT64 
+			const bool is64bit = true;
+		#else
+			#define ENVIRONMENT32
+			const bool is64bit = false;
+		#endif
+		int _LINUX_getCPUcount() {
+			int numCPU = sysconf(_SC_NPROCESSORS_ONLN);
+			return numCPU;
+		}
 	#endif
 #endif
-typedef BOOL(WINAPI *LPFN_ISWOW64PROCESS) (HANDLE, PBOOL); LPFN_ISWOW64PROCESS fnIsWow64Process;
-BOOL isWow64;
-bool getWindowsBit(bool & isWindows64bit) {
-#if _WIN64
-	isWindows64bit = true;
-	return true;
-#elif _WIN32
-	isWindows64bit = false;
-	LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)
-		GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
-	if (fnIsWow64Process)
-	{
-		if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
-			return false;
-		if (isWow64)
-			isWindows64bit = true;
-		else
-			isWindows64bit = false;
+#if isWindows
+	bool getWindowsBit(bool & isWindows64bit) {
+	#if _WIN64
+		isWindows64bit = true;
 		return true;
-	}
-	else
+	#elif _WIN32
+		isWindows64bit = false;
+		LPFN_ISWOW64PROCESS fnIsWow64Process = (LPFN_ISWOW64PROCESS)
+			GetProcAddress(GetModuleHandle(TEXT("kernel32")), "IsWow64Process");
+		if (fnIsWow64Process)
+		{
+			if (!fnIsWow64Process(GetCurrentProcess(), &isWow64))
+				return false;
+			if (isWow64)
+				isWindows64bit = true;
+			else
+				isWindows64bit = false;
+			return true;
+		}
+		else
+			return false;
+	#else
+		isWindows64bit=false;
+		assert(0);
 		return false;
-#else
-	assert(0);
-	return false;
+	#endif
+	}
+#elif isLinux
+	bool getLinuxBit(bool & isLinux64bit) {
+	#if __LP64__
+		isLinux64bit = true;
+		return true;
+	#elif __x86__
+		isLinux64bit = false;
+		return true;
+	#else
+		isLinux64bit=false;
+		assert(0);
+		return false;
+	#endif
+	}
 #endif
-}
 const double PI = 3.141592653589793;
 std::vector<std::vector<std::vector<std::string>>> Thread_RGB;
 std::vector<std::vector<std::vector<std::vector<std::string>>>> Test_RGB;
@@ -117,3 +154,13 @@ time_t getCurrentTimeInSec();
 int iRandomNum(int randSeed, int low, int high);
 float fRandomNum(int randSeed, float low, float high);
 double dRandomNum(int randSeed, double low, double high);
+#define __DBG 1
+#if __DBG
+std::ofstream outLog;
+std::ifstream inlog;
+void log2txt(std::string __fname, std::string __str);
+void log2txt(std::string __fname, int __int);
+void log2txt(std::string __fname, float __float);
+void log2txt(std::string __fname, double __double);
+void log2txt(std::string __fname, char *__char);
+#endif

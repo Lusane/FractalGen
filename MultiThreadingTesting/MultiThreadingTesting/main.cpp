@@ -1,12 +1,14 @@
 #define VERITAS_FACTA 420
-#include "ThreadHandler.h"
+#include "ThreadHandler.cpp"
+#include "ini.cpp"
+#if __DBG
+void log2txt(std::string __fname, std::string __str);
+void log2txt(int __int);
+void log2txt(float __float);
+void log2txt(double __double);
+void log2txt(char *__char);
+#endif
 std::vector<std::thread> MTs;
-int _WIN_getCPUcount() 
-{
-	SYSTEM_INFO sysinfo;
-	GetSystemInfo(&sysinfo);
-	return (INT8)sysinfo.dwNumberOfProcessors;
-}
 void checkForDefaultsUse() 
 {
 	if (fConfig.useDefaults || fConfig.useSetDefaults) 
@@ -195,11 +197,9 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 {
 	std::stringstream ID;
 	ID << id;
-	///std::ofstream devLog;
-	///devLog.open("Thread_"+ID.str()+".txt");
 	Geni[id] = true;
 	int Set[8] = { fConfig.set1, fConfig.set2, fConfig.set3, fConfig.set4, fConfig.set5, fConfig.set6, fConfig.set7, fConfig.set8 };
-	Sleep(10);
+	slp(10);
 	int y;
 	int x;
 	int _x = InitX;
@@ -256,19 +256,23 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 				dBlue[st] = frac.ColorSaftyNet(((double)(((int)((double)n[st] * frac.bMlt[id][st]) % frac.bDiv[id][st]) + (int)PI)));
 
 				if (fConfig.FaverRed) {
-					dRed[st] = frac.ColorSaftyNet(dRed[st] * n[st]);
-					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / n[st]);
-					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / n[st]);
+					dRed[st] = frac.ColorSaftyNet(dRed[st] + (n[st]-(cr[st]+ci[st])));
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / (n[st]-(cr[st]+ci[st])));
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / (n[st]-(cr[st]+ci[st])));
 				}
 				else if (fConfig.FaverGreen) {
-					dRed[st] = frac.ColorSaftyNet(dRed[st] / n[st]);
-					dGreen[st] = frac.ColorSaftyNet(dGreen[st] * n[st]);
-					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / n[st]);
+					dRed[st] = frac.ColorSaftyNet(dRed[st] / (n[st]-(cr[st]+ci[st])));
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] + (n[st]-(cr[st]+ci[st])));
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] / (n[st]-(cr[st]+ci[st])));
 				}
 				else if (fConfig.FaverBlue) {
-					dRed[st] = frac.ColorSaftyNet(dRed[st] / n[st]);
-					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / n[st]);
-					dBlue[st] = frac.ColorSaftyNet(dBlue[st] * n[st]);
+					dRed[st] = frac.ColorSaftyNet(dRed[st] / (n[st]-(cr[st]+ci[st])));
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] / (n[st]-(cr[st]+ci[st])));
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] + (n[st]-(cr[st]+ci[st])));
+				}else{
+					dRed[st] = frac.ColorSaftyNet(dRed[st] + (n[st]-(cr[st]+ci[st])));
+					dGreen[st] = frac.ColorSaftyNet(dGreen[st] + (n[st]-(cr[st]+ci[st])));
+					dBlue[st] = frac.ColorSaftyNet(dBlue[st] + (n[st]-(cr[st]+ci[st])));
 				}
 			}
 			Thread_RGB[id][y][x] = frac.getRGB(dRed, dGreen, dBlue, ID.str());
@@ -290,14 +294,13 @@ void genFrac(int InitX, int FinalX, int InitY, int FinalY, int id)
 	}
 	Geni[id] = false;
 	Done_Geni[id] = true;
-	///devLog.close();
-	Sleep(10);
+	slp(10);
 	std::this_thread::yield();
 }
 void AssemableImage()
 {
 	ImageMaking = true;
-	Sleep(10);
+	slp(10);
 	std::stringstream Name;
 	Name << mConfig.name;
 	std::stringstream FileExt;
@@ -353,7 +356,31 @@ void AssemableImage()
 	Image.close();
 	ImageMaking = false;
 	ImageAssembled = true;
-	Sleep(10);
+	#if isWindows
+	char __cmd[240];
+	strcat(__cmd,"START ")
+	system();
+	#elif isLinux
+	char __path[240];
+	char buff[FILENAME_MAX];
+	getcwd(buff,FILENAME_MAX);
+	char *current_working_dir(buff);
+	strcat(__path,current_working_dir);
+	strcat(__path,"/");
+	strcat(__path,imageName.c_str());
+	char __envvar[240];
+	strcat(__envvar,"FRACTALIMAGEPATH=");
+	strcat(__envvar,__path);
+	char *FIP=getenv("FRACTALIMAGEPATH");
+	if(FIP!=__path || FIP=="") {
+		putenv(__envvar);
+	}else{
+		setenv("FRACTALIMAGEPATH",__path,1);
+	}
+	char __cmd[240];
+	system("xterm -e mate-terminal -e ./shellScripts/opimg.sh");
+	#endif
+	slp(10);
 	std::cout << FileExt.str() << " Finished" << std::endl;
 }
 void coutProgress() {
@@ -372,15 +399,15 @@ void coutProgress() {
 			{
 				std::cout << "Image Compiling: " << ImageProg[1] << "." << ImageProg[0] << "%" << std::endl;
 			}
-			Sleep(40);
+			slp(40);
 		}
 	}
 	std::this_thread::yield();
 }
-void quit() 
+void quit()
 {
 	char input;
-	std::cout << "To veiw the LICENSE.txt enter l, To veiw the README.md enter r." << std::endl << "Do You want to generate a fractal or close the program?(f, c)" << std::endl;
+	std::cout << "To veiw the LICENSE.txt enter l, To veiw the README.md enter r, To veiw the ini.h_LICENSE.txt enter i." << std::endl << "Do You want to generate a fractal or close the program?(f, c)" << std::endl;
 	std::cin >> input;
 	switch (input) 
 	{
@@ -400,12 +427,29 @@ void quit()
 		break;
 	case 'l':
 	case 'L':
+		#if isWindows
 		system("START LICENSE.txt");
+		#elif isLinux
+		system("xterm -e mate-terminal -e ./shellScripts/opln.sh");
+		#endif
 		quit();
 		break;
 	case 'r':
 	case 'R':
+		#if iswindows
 		system("START README.md");
+		#elif isLinux
+		system("xterm -e mate-terminal -e ./shellScripts/oprm.sh");
+		#endif
+		quit();
+		break;
+	case 'i':
+	case 'I':
+		#if isWindows
+		system("START ini.h_LICENSE.txt");
+		#elif isLinux
+		system("xterm -e mate-terminal -e ./shellScripts/opiln.sh");
+		#endif
 		quit();
 		break;
 	default:
@@ -414,7 +458,7 @@ void quit()
 		break;
 	}
 }
-void pause()
+void wait()
 {
 	if (!mConfig.skipPauses)
 	{
@@ -426,20 +470,20 @@ void loop()
 {
 	trackProg = true;
 	InitMem();
-	Sleep(10);
+	slp(10);
 	checkForDefaultsUse();
 	randomFracValues();
 	randomColors();
-	pause();
+	wait();
 	Timestamp("Start Time: ");
 	InitThreads();
-	Sleep(10);
-	pause();
+	slp(10);
+	wait();
 	initImageThread();
 	Timestamp("End Time: ");
-	Sleep(10);
+	slp(10);
 	DeallocateMem();
-	Sleep(10);
+	slp(10);
 	trackProg = false;
 }
 void MainLoopControl() 
@@ -447,17 +491,17 @@ void MainLoopControl()
 	while (ContinueRunning && !ForceShutDown && !ReInitThreads)
 	{
 		bool bCProg = mConfig.CoutProgress;
-		Sleep(10);
-		ini_parse("Program.ini", mainHandler, &mConfig);
-		ini_parse("Fractal.ini", fractalHandler, &fConfig);
-		ini_parse("Sets.ini", fracSetHandler, &fSets);
-		Sleep(10);
+		slp(10);
+		ini_parse("ini's/Program.ini", mainHandler, &mConfig);
+		ini_parse("ini's/Fractal.ini", fractalHandler, &fConfig);
+		ini_parse("ini's/Sets.ini", fracSetHandler, &fSets);
+		slp(10);
 		if (mConfig.CoutProgress != bCProg)
 		{
 			ReInitThreads = true;
 			ForceShutDown = true;
 		}
-		Sleep(10);
+		slp(10);
 		frac.width = mConfig.width;
 		frac.height = mConfig.height;
 		loop();
@@ -468,21 +512,22 @@ void MainLoopControl()
 void ControlValueInit()
 {
 	threadCount = mConfig.ThreadCount;
-	if (isWIN)
+	std::cout << "Counting CPU Cores..." << std::endl;
+	#if isWindows
+		ncpu = _WIN_getCPUcount();
+	#elif isLinux
+		ncpu = _LINUX_getCPUcount();
+	#endif
+	if (threadCount > ncpu)
 	{
-		std::cout << "Counting CPU Cores..." << std::endl;
-		int ncpu = _WIN_getCPUcount();
-		if (threadCount > ncpu)
-		{
-			std::cout << "thread count is to high reducing from " << threadCount << " to " << ncpu << std::endl;
-			threadCount = ncpu;
-		}
+		std::cout << "thread count is to high reducing from " << threadCount << " to " << ncpu << std::endl;
+		threadCount = ncpu;
 	}
 	MemAllocating = new bool[4];
 	MemAllocationDone = new bool[4];
 	MemDeallocating = new bool[4];
 	MemDeallocationDone = new bool[4];
-	Sleep(10);
+	slp(10);
 	for (int Mem = 0; Mem < 4; ++Mem) 
 	{
 		MemAllocating[4] = false;
@@ -522,7 +567,7 @@ void joiningofMainThreads()
 	{
 		mt.join();
 	}
-	Sleep(50);
+	slp(50);
 	MainThreadDestruction();
 }
 void MainThreadCreation()
@@ -536,7 +581,7 @@ void MainThreadCreation()
 	{
 		MTs.push_back(std::thread(coutProgress));
 	}
-	Sleep(50);
+	slp(50);
 	joiningofMainThreads();
 }
 void Timestamp(std::string text) 
@@ -578,10 +623,22 @@ double dRandomNum(int randSeed, double low, double high)
 int main()
 {
 	std::cout << "ini.h/ini.c Copyright (c) 2009, Ben Hoyt" << std::endl << std::endl;
-	std::cout << "Copyright (C) 2018  Donovan McEnnerney" << std::endl << "This program comes with ABSOLUTELY NO WARRANTY!" << std::endl << "This is free software, and you are welcome to redistribute it under certain conditions, See LICENSE.txt for details." << std::endl << std::endl;
+	std::cout << "Copyright (C) 2019  Donovan McEnnerney" << std::endl << "This program comes with ABSOLUTELY NO WARRANTY!" << std::endl << "This is free software, and you are welcome to redistribute it under certain conditions, See LICENSE.txt for details." << std::endl << std::endl;
 	std::cout << "Current Version: " << Version << std::endl;
-	if ((ini_parse("Program.ini", mainHandler, &mConfig) < 0) || (ini_parse("Fractal.ini", fractalHandler, &fConfig) < 0) || (ini_parse("Sets.ini", fracSetHandler, &fSets) < 0)) 
+	if ((ini_parse("ini's/Program.ini", mainHandler, &mConfig) < 0)) 
 	{
+		std::cout << "Could not find Program.ini in the ini's folder or ini's does not exsit." << std::endl << "Press any button to close the program." << std::endl;
+		std::cin.ignore();
+		return 1;
+	}
+	if((ini_parse("ini's/Fractal.ini", fractalHandler, &fConfig) < 0)) {
+		std::cout << "Could not find Fractal.ini in the ini's folder or ini's does not exsit." << std::endl << "Press any button to close the program." << std::endl;
+		std::cin.ignore();
+		return 1;
+	}
+	if((ini_parse("ini's/Sets.ini", fracSetHandler, &fSets) < 0)) {
+		std::cout << "Could not find Sets.ini in the ini's folder or ini's does not exsit." << std::endl << "Press any button to close the program." << std::endl;
+		std::cin.ignore();
 		return 1;
 	}
 	bool bCProg = mConfig.CoutProgress;

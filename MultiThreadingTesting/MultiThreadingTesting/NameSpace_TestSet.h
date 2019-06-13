@@ -1,5 +1,4 @@
 //std::ofstream TestLog("Namespace_TestSet.hLog.txt");
-
 namespace TestSet {
 	//						  0,   1,   2,   3,   4,   5,   6,   7,
 	const double zr_[8] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };

@@ -13,6 +13,10 @@ https://github.com/benhoyt/inih
 #include <string.h>
 #include "ini.h"
 
+#if __cplusplus
+extern "C" {
+#endif
+
 #if !INI_USE_STACK
 #include <stdlib.h>
 #endif
@@ -263,3 +267,7 @@ int ini_parse_string(const char* string, ini_handler handler, void* user) {
 	return ini_parse_stream((ini_reader)ini_reader_string, &ctx, handler,
 		user);
 }
+
+#if __cplusplus
+}
+#endif

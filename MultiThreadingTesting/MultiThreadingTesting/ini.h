@@ -8,7 +8,7 @@ https://github.com/benhoyt/inih
 #define __INI_H__
 
 /* Make this header file easier to include in C++ code */
-#ifdef __cplusplus
+#if __cplusplus
 extern "C" {
 #endif
 
@@ -118,7 +118,7 @@ extern "C" {
 #define INI_STOP_ON_FIRST_ERROR 0
 #endif
 
-#ifdef __cplusplus
+#if __cplusplus
 }
 #endif
 
