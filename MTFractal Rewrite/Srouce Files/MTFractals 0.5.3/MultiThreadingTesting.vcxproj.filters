@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ini Files">
+      <UniqueIdentifier>{06dc074c-f9bf-449a-9879-ef0670cc92aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MemHandlers">
+      <UniqueIdentifier>{75c93091-a730-4e27-9702-96487b29a378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\INI">
+      <UniqueIdentifier>{e528da3c-30a2-488f-bbd3-27ee2586a658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Set Headers">
+      <UniqueIdentifier>{fe3cdcfb-25a1-4259-8d8a-6410c8444376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LibJpeg">
+      <UniqueIdentifier>{d150af79-8102-46d8-be1e-569bb2c93163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LibJpeg">
+      <UniqueIdentifier>{b55960a2-d29c-41b5-afd0-8549128eb3cd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ini.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MemAllocation.h">
+      <Filter>Header Files\MemHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="MemDeallocation.h">
+      <Filter>Header Files\MemHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="INIReader.h">
+      <Filter>Header Files\INI</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_CastleSet.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_Color.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_HalCorrupted.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_HourGlassSet.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_MandelBrot.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Namespace_StarBurstSet.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="NameSpace_TestSet.h">
+      <Filter>Header Files\Set Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>Header Files\INI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fractal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fractal.ini">
+      <Filter>ini Files</Filter>
+    </None>
+    <None Include="Program.ini">
+      <Filter>ini Files</Filter>
+    </None>
+    <None Include="Sets.ini">
+      <Filter>ini Files</Filter>
+    </None>
+    <None Include="..\..\README.md">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\.gitignore">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\.gitattributes">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\LICENSE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="LICENSE.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
