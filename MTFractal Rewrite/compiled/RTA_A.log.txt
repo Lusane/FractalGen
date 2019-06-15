@@ -1,0 +1,4 @@
+Thread_RGB zAxis Cap: : 4
+É{³ùThread_RGB[0] yAxis Cap: : 513
+É{³ùThread_RGB[0][0] xAxis Cap: : 513
+É{³ùThread_RGB[0][0] xAxis Cap: Thread_RGB[0][1] xAxis Cap: : 513
